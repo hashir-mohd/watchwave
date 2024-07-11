@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { isValidObjectId } from "mongoose"
 import {Comment} from "../models/comment.model.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
@@ -44,11 +44,71 @@ const addComment = asyncHandler(async (req, res) => {
 })
 
 const updateComment = asyncHandler(async (req, res) => {
-    // TODO: update a comment
+    /*
+    1.check if comment exist or No
+    2.check user Validity
+    3.update the content
+    4.save
+    */
+    
+    const {commentId} = req.params;
+    const {content} = req.body;
+    
+    if(!content){
+        throw new ApiError( 400,"Content is required");
+    }
+    if(!isValidObjectId(commentId)){
+        throw new ApiError(400, "Invalid comment id");
+    }
+
+    const comment = await Comment.findById(commentId);
+    if(!comment){
+        throw new ApiError(404,"Comment does not exist");
+    }
+    
+    if(comment?.owner.toString()!== req.user?._id.toString()){
+        throw new ApiError(403, "You are not authorized to update this comment");
+    }
+    const updatedComment = await Comment.findByIdAndUpdate(
+        commentId,
+        {
+            $set: {
+                content
+            }
+        },
+        {new: true}
+    )
+    if(!updatedComment){
+        throw new ApiError(500, "Something went wrong while updating the comment");
+    }
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, content, "Comment updated successfully")
+    )
 })
 
 const deleteComment = asyncHandler(async (req, res) => {
-    // TODO: delete a comment
+    const {commentId} = req.params;
+    const userid = req.user?._id;
+
+    if(!isValidObjectId(commentId)){
+        throw new ApiError(400, "Invalid comment id");
+    }
+    const comment = await Comment.findById(commentId);
+    if(!comment){
+        throw new ApiError(404,"Comment does not exist");
+    }
+    
+    if(comment?.owner.toString()!== userid.toString()){
+        throw new ApiError(403, "You are not authorized to delete this comment");
+    }
+    await Comment.findByIdAndDelete(commentId);
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, null, "Comment deleted successfully")
+    )
 })
 
 export {

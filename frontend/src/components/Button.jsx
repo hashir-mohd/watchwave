@@ -1,16 +1,13 @@
 import React from "react";
 
-function Button({ className, children, type = "Button", ...props }) {
+function Button({ className, text = "Button content here" }) {
   return (
     <button
-      className={`w-full px-3 py-2 sm:w-auto font-bold ${className}`}
-      type={type}
-      {...props}
+      className={`w-full bg-[#383737] px-3 py-2 hover:bg-[#4f4e4e] sm:w-auto sm:bg-transparent ${className}`}
     >
-      {children}
+      {text}
     </button>
   );
 }
-
 
 export default Button;

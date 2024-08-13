@@ -5,13 +5,15 @@ function LayoutController({authStatus, children, sidebar=true}) {
     return (
         <div>
             {authStatus && <Header />}
-            {sidebar && authStatus && (
+            {sidebar && authStatus ? (
                 <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
                     <Sidebar />
                     {children}
                 </div>
-            )}
-            {children}
+            ): (
+          <>{children}</>
+        )}
+            
         </div>
         
     )

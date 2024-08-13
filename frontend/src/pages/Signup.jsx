@@ -4,7 +4,7 @@ import { Logo, Input, SpButton } from '../components/index.js';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { MdOutlineCloudUpload } from "react-icons/md";
-import { CgProfile } from "react-icons/cg";
+import {Link} from "react-router-dom";
 
 function Signup() {
     const schema = z.object({
@@ -30,30 +30,21 @@ function Signup() {
 
     const [profilePic,setProfilePic] = useState(null);
     const [coverPic,setCoverPic] = useState(null);
-    const[selectedImage,setSelectedImage] = useState(null);
+    const[selectedProfile,setSelectedProfile] = useState(null);
     const [selectedCover,setSelectedCover] = useState(null);
 
-    function handleImageSelect(e){
+    function handleImageSelect(e,setImage){
         const file = e.target.files[0];
         if(file){
-            setProfilePic(file);
+            
             const reader = new FileReader();
             reader.onloadend =() =>{
-                setSelectedImage(reader.result);
+                setImage(reader.result);
             }
             reader.readAsDataURL(file);
         }
-    };
-    function handleCoverSelect (e){
-        const file = e.target.files[0];
-        if(file){
-            setCoverPic(file);
-            const reader = new FileReader();
-            reader.onloadend =() =>{
-                setSelectedCover(reader.result);
-            }
-            reader.readAsDataURL(file);
-    }
+    
+  
 }
     const createAccount = (data) => {
         console.log("form-data", data);
@@ -65,7 +56,16 @@ function Signup() {
                 <div className="flex justify-center mb-6">
                     <Logo className="w-24" />
                 </div>
-                <h2 className="text-2xl font-semibold text-center mb-4">Create an Account</h2>
+                <div className="w-full flex flex-col items-center justify-center mb-6 text-white">
+          <h1 className="text-2xl">Signup</h1>
+          <span>
+            already have an account?
+            <Link to="/login" className="text-blue-500 inline">
+              Login
+            </Link>
+          </span>
+        </div>
+                <h2 className="text-2xl font-semibold text-center mb-4 text-white">Create an Account</h2>
                 <form onSubmit={handleSubmit(createAccount)} className="space-y-4">
 
                         
@@ -77,7 +77,7 @@ function Signup() {
           >
             <div
               className={`mx-auto mt-6 flex justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat border-2 border-purple-700 `}
-              style={{ backgroundImage: `url(${selectedImage})` }}
+              style={{ backgroundImage: `url(${selectedProfile})` }}
             >
               <div className="bg-white/90 flex justify-center items-center rounded-full w-7 h-7 text-center ml-28 mt-[106px]">
                 <input
@@ -87,7 +87,8 @@ function Signup() {
                   accept="image/png, image/jpg, image/jpeg, image/gif"
                   {...register("profileImg", { required: true })}
                   onChange={(e) => {
-                    handleImageSelect(e);
+                    setProfilePic(e.target.files[0]);
+                    handleImageSelect(e, setSelectedProfile);
                   }}
                 />
 
@@ -108,7 +109,8 @@ function Signup() {
                 accept="image/png, image/jpg, image/jpeg, image/gif"
                 {...register("coverphoto", { required: false })}
                 onChange={(e) => {
-                  handleCoverSelect(e);
+                  setCoverPic(e.target.files[0]);
+                  handleImageSelect(e, setSelectedCover);
                 }}
               />
 

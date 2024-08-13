@@ -229,11 +229,11 @@ function Header() {
             </li>
           </ul>
           <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
-            <SpButton
-              text="Log in"
-            >
+            <Link to="/login">
+            <SpButton>
               Log in
             </SpButton>
+            </Link>
             <Link to="/signup">
               <SpButton>Sign up</SpButton>
             </Link>

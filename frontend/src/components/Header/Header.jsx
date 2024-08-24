@@ -2,8 +2,23 @@ import React from "react";
 import SpButton from "../SpButton";
 import Logo from "../Logo";
 import Button from "../Button";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+import { useLogout } from "../../hooks/queries";
+
+
+
 function Header() {
+  const navigate = useNavigate();
+  const {mutateAsync: logout, isloading } = useLogout();
+  const handleLogout = async () => {
+    const sessionStatus = await logout();
+    if (sessionStatus) {
+      navigate("/login");
+    }
+  }
+
+
+
   return (
     <header className="sticky inset-x-0 top-0 z-50 w-full border-b border-white text-white bg-[#121212] px-4">
       <nav className="mx-auto flex max-w-7xl items-center py-2">

@@ -1,11 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input, Logo, SpButton } from "../components/index.js";
+import {useLogin} from "../hooks/queries.js";
 
 function Login() {
+
+    const navigate = useNavigate();
+    const { mutateAsync: login, isLoading } = useLogin();
+
     const schema = z.object({
         usernameOrEmail: z
           .string()
@@ -36,8 +41,14 @@ function Login() {
     resolver: zodResolver(schema),
   });
 
-  const createAccount = (data) => {
+  const loginUser = async (data) => {
     console.log("form-data", data);
+    const session = await login(data);
+    if(session){
+        console.log("session", session);
+        navigate("/");
+    }
+
 };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -52,7 +63,7 @@ function Login() {
           Signup
         </Link>
       </p>
-      <form onSubmit={handleSubmit(createAccount)} className="space-y-4">
+      <form onSubmit={handleSubmit(loginUser)} className="space-y-4">
         <div>
           <label htmlFor="usernameOrEmail" className="block text-sm font-medium text-gray-700 mb-1">
             Username/Email*

@@ -4,15 +4,20 @@ import Logo from "../Logo";
 import Button from "../Button";
 import { Link,useNavigate } from "react-router-dom";
 import { useLogout } from "../../hooks/queries";
+import { useDispatch } from "react-redux";
+import { unSetCurrentUser } from "../../features/authSlice";
 
 
 
-function Header() {
+function Header({authStatus}) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {mutateAsync: logout, isloading } = useLogout();
+  
   const handleLogout = async () => {
     const sessionStatus = await logout();
     if (sessionStatus) {
+      dispatch(unSetCurrentUser());
       navigate("/login");
     }
   }
@@ -244,14 +249,17 @@ function Header() {
             </li>
           </ul>
           <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
-            <Link to="/login">
-            <SpButton>
-              Log in
-            </SpButton>
-            </Link>
-            <Link to="/signup">
-              <SpButton>Sign up</SpButton>
-            </Link>
+          {authStatus && <SpButton onClick={handleLogout}>Logout</SpButton>}
+          {!authStatus && (
+            <>
+              <Link to="/login">
+                <Button>Log in</Button>
+              </Link>
+              <Link to="/signup">
+                <SpButton>Sign up</SpButton>
+              </Link>
+            </>
+          )}
           </div>
         </div>
       </nav>

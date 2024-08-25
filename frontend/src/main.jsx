@@ -4,44 +4,68 @@ import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Signup, Home, Login } from "./pages/index.js";
-import LayoutController from "./components/LayoutController.jsx";
+import AuthLayout from "./components/AuthLayout.jsx";
+import { Provider } from "react-redux";
+import store from "./store/store.js";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
+const queryClient = new QueryClient();
 
 
 const router = createBrowserRouter([
     {
-        path: '/',
-        element:( <App />),
-        children:[
-            {   
-                path:"/",
-                element: (
-                    <LayoutController authStatus >
-                        <Home />
-                    </LayoutController>
-                ),
-            },
-            {
-                path : "/signup",
-                element: (
-                    <LayoutController authStatus={false} sidebar= {false}>
-                        <Signup />
-                    </LayoutController>
-                )
-            },
-            {
-                path : "/login",
-                element: (
-                    <LayoutController authStatus={false} sidebar= {false}>
-                        <Login />
-                    </LayoutController>
-                )
-            }
-        ]
-    }
-])
+      path: "/",
+      element: <App />,
+      children: [
+        {
+          path: "/",
+          element: (
+            <AuthLayout auth={false}>
+              <Home />
+            </AuthLayout>
+          ),
+        },
+      ],
+    },
+    {
+      path: "/signup",
+      element: (
+        <AuthLayout auth={false}>
+          <Signup />
+        </AuthLayout>
+      ),
+    },
+    {
+      path: "/login",
+      element: (
+        <AuthLayout auth={false}>
+          <Login />
+        </AuthLayout>
+      ),
+    },
+  ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   
-    <RouterProvider router={router}/>
+    <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+    <ReactQueryDevtools initialIsOpen={false} />
+    <Toaster
+      position="top-right"
+      reverseOrder={true}
+      toastOptions={{
+        error: {
+          style: { borderRadius: "0", color: "red" },
+        },
+        success: {
+          style: { borderRadius: "0", color: "green" },
+        },
+        duration: 2000,
+      }}
+    />
+  </QueryClientProvider>
 
 )

@@ -5,7 +5,7 @@ const API = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
-    // withCredentials: true,
+    withCredentials: true,
 
 });
 
@@ -18,6 +18,7 @@ export const login = async (FormData)=>{
         
     } catch (error) {
         console.log(error);
+        throw error?.response?.data;
     }
 };
 

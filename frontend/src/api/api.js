@@ -29,6 +29,7 @@ export const logout = async()=>{
         return data;
     } catch (error) {
         console.log(error);
+        throw error?.response?.data;
     }
 };
 
@@ -39,5 +40,7 @@ export const getCurrentUser = async()=>{
         return data;
     } catch (error) {
         console.log(error);
+        throw error?.response?.data;
+
     }
 }

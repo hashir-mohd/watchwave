@@ -3,14 +3,96 @@ import {Video} from "../models/video.model.js"
 import {User} from "../models/user.model.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
+import { video_upOptions, thumbnail_upOptions } from "../constants.js";
 import {asyncHandler} from "../utils/asyncHandler.js"
 import {deleteFromCloudinary, uploadOnCloudinary} from "../utils/cloudinary.js"
+// import {
+//   preprocessAvatar,
+//   preprocessVideo,
+//   preprocessThumbnail,
+// } from "../utils/fileProcessing.js";
 
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
-    //TODO: get all videos based on query, sort, pagination
-})
+  const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
+
+  const pipeline = [];
+  //first create a search index using atlas
+  //then use $search to search the videos
+  //search index is created on title and description fields
+  //here i have created "search-videos" index on "videos" collection
+  if (query) {
+    pipeline.push({
+      $search: {
+        index: "search-videos",
+        text: {
+          query: query,
+          path: ["title", "description"],
+        },
+      },
+    });
+  }
+  if (userId) {
+    if (!isValidObjectId(userId)) {
+      throw new ApiError(400, "Invalid userId");
+    }
+
+    pipeline.push({
+      $match: {
+        owner: new mongoose.Types.ObjectId(userId),
+      },
+    });
+  }
+  // fetch videos only that are set isPublished as true
+  pipeline.push({ $match: { isPublished: true } });
+
+  //sortBy can be views, createdAt, duration
+  //sortType can be ascending(-1) or descending(1)
+  if (sortBy && sortType) {
+    pipeline.push({
+      $sort: {
+        [sortBy]: sortType === "asc" ? 1 : -1,
+      },
+    });
+  } else {
+    pipeline.push({ $sort: { createdAt: -1 } });
+  }
+
+  pipeline.push(
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "ownerDetails",
+        pipeline: [
+          {
+            $project: {
+              username: 1,
+              "avatar.url": 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: "$ownerDetails",
+    }
+  );
+
+  const videoAggregate = Video.aggregate(pipeline);
+
+  const options = {
+    page: parseInt(page, 10),
+    limit: parseInt(limit, 10),
+  };
+
+  const video = await Video.aggregatePaginate(videoAggregate, options);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, video, "Videos fetched successfully"));
+});
 
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description} = req.body
@@ -31,8 +113,8 @@ const publishAVideo = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Thumbnail file is required");
     }
 
-    const videofile = await uploadOnCloudinary(videoLocalPath);
-    const thumbnailfile = await uploadOnCloudinary(thumbnailLocalPath);
+    const videofile = await uploadOnCloudinary(videoLocalPath, video_upOptions);
+    const thumbnailfile = await uploadOnCloudinary(thumbnailLocalPath, thumbnail_upOptions);
     if(!videofile || !thumbnailfile){
         throw new ApiError(400, "Error while uploading on cloudinary")
     }
@@ -201,7 +283,7 @@ const updateVideo = asyncHandler(async (req, res) => {
             $set: {
                 title,
                 description,
-                thumbnail: thumbnailLocalPath? await uploadOnCloudinary(thumbnailLocalPath).url : currentVideo.thumbnail
+                thumbnail: thumbnailLocalPath? await uploadOnCloudinary(thumbnailLocalPath, thumbnail_upOptions).url : currentVideo.thumbnail
             }
         },
         { new: true }

@@ -63,11 +63,20 @@ export const getVideos = async (
       url.searchParams.set("sortType", sortType);
     }
     const response = await API.get(url.href);
-    console.log(response);
     return response?.data?.data;
   } catch (error) {
     toast.error(error?.response?.data?.error);
-    console.log(error);
+    throw error?.response?.data?.error;
+  }
+};
+
+export const getVideoById = async (videoId) => {
+  try {
+    const { data } = await API.get(`/video/${videoId}`);
+    console.log(data);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
     throw error?.response?.data?.error;
   }
 };

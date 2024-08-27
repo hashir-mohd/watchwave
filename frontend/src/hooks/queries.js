@@ -1,5 +1,11 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { login, logout, getCurrentUser, getVideos } from "../api/api";
+import {
+  login,
+  logout,
+  getCurrentUser,
+  getVideos,
+  getVideoById,
+} from "../api/api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const useLogin = () => {
@@ -30,6 +36,13 @@ export const useVideos = () => {
       
       return getVideos(lastPage.nextPage);
     },
+  });
+};
+
+export const useVideoById = (videoId) => {
+  return useQuery({
+    queryKey: ["videoId"],
+    queryFn: () => getVideoById(videoId),
   });
 };
 

@@ -18,6 +18,8 @@ function VideoDetail() {
 
   const { mutateAsync: subscribe, data, error } = useSubscribe();
   const { data: video, isLoading, isError } = useVideoById(videoId);
+  
+  
 
   const handleSubscribe = async (channelId) => {
     await subscribe(channelId);

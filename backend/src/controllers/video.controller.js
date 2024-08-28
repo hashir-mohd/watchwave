@@ -95,46 +95,59 @@ const getAllVideos = asyncHandler(async (req, res) => {
 });
 
 const publishAVideo = asyncHandler(async (req, res) => {
-    const { title, description} = req.body
-    
-    if (
-        [title, description].some(
-          (field) => field === undefined || field?.trim() === ""
-        )
-      ) {
-        throw new ApiError(400, "All fields are required");
-      }
-    const videoLocalPath = req.files?.video[0]?.path;
-    if(!videoLocalPath){
-        throw new ApiError(400, "Video file is required");
-    }
-    const thumbnailLocalPath = req.files?.thumbnail[0]?.path;
-    if(!thumbnailLocalPath){
-        throw new ApiError(400, "Thumbnail file is required");
-    }
+  const { title, description, isPublished } = req.body;
 
-    const videofile = await uploadOnCloudinary(videoLocalPath, video_upOptions);
-    const thumbnailfile = await uploadOnCloudinary(thumbnailLocalPath, thumbnail_upOptions);
-    if(!videofile || !thumbnailfile){
-        throw new ApiError(400, "Error while uploading on cloudinary")
-    }
+  if (
+    [title, description, isPublished].some(
+      (field) => field === undefined || field?.trim() === ""
+    )
+  ) {
+    throw new ApiError(400, "All fields are required");
+  }
 
-    const video = await Video.create({
-        title,
-        description,
-        video: videofile?.url,
-        thumbnail: thumbnailfile?.url,
-        userId: req.user?._id,
-        isPublished: true,
-    })
-    if(!video){
-        throw new ApiError(400, "Error while uploading");
-    }
+  const videoLocalPath = req.files?.video[0]?.path;
 
-    return res
-    .status(200)
-    .json(new ApiResponse(200, video, "Video published successfully"))
-})
+  if (!videoLocalPath) throw new ApiError(401, "Video is required to publish");
+
+  const thumbnailLocalPath = req.files?.thumbnail[0]?.path;
+
+  if (!thumbnailLocalPath)
+    throw new ApiError(401, "Thumbnail is required to publish");
+
+  const videoFile = await uploadOnCloudinary(videoLocalPath, video_upOptions);
+
+  if (!videoFile) throw new ApiError(500, "Failed to upload video");
+
+  const thumbnailFile = await uploadOnCloudinary(
+    thumbnailLocalPath,
+    thumbnail_upOptions
+  );
+
+  if (!thumbnailFile) throw new ApiError(500, "Failed to upload thumbnail");
+
+  const video = await Video.create({
+    video: {
+      fileId: videoFile.public_id,
+      url: videoFile.playback_url,
+    },
+    thumbnail: {
+      fileId: thumbnailFile.public_id,
+      url: thumbnailFile.url,
+    },
+    duration: videoFile.duration,
+    title,
+    description,
+    isPublished,
+    owner: req.user._id,
+  });
+
+  if (!video) throw new ApiError(500, "Failed to publish video");
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, video, "Video published successfully"));
+});
+
 
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params;

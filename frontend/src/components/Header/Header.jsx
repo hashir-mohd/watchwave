@@ -9,7 +9,8 @@ import { unSetUser } from "../../features/authSlice";
 
 
 
-function Header({authStatus}) {
+function Header() {
+  const authStatus = useSelector((state) => state.auth.authStatus);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {mutateAsync: logout, isloading } = useLogout();
@@ -23,7 +24,7 @@ function Header({authStatus}) {
   }
 
   const userData = useSelector((state) => state.auth.user);
-  console.log(userData);
+  
 
   return (
     <header className="sticky inset-x-0 top-0 z-50 w-full border-b border-white text-white bg-[#121212] px-4">

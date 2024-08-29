@@ -7,37 +7,33 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 
 
 const toggleSubscription = asyncHandler(async (req, res) => {
-    const {channelId} = req.params
-    const userId= req.user._id
+  const { channelId } = req.params;
+  const userId = req.user._id;
 
-    let isSubscribed = await Subscription.findOne(
-        {
-            channel : channelId,
-            subscriber : userId
-        }
-    )
+  if (userId.toHexString() === channelId) {
+    throw new ApiError(401, "Self-Subscription is prohibited");
+  }
 
-    if(isSubscribed) {
-        await Subscription.findByIdAndDelete(isSubscribed?._id);
-        return res
-        .status(200)
-        .json(
-            new ApiResponse(
-                200,
-                "Channel Unsubscribed",
-                "Channel unsubscribed"));
-    }
-    else{
-        await Subscription.create({
-            channel : channelId,
-            subscriber : userId
-        });
-        return res
-        .status(200)
-       .json(new ApiResponse(200,null,"channel subscribed"))
-    }
-    
-})
+  let isSubscribed = await Subscription.findOne({
+    channel: channelId,
+    subscriber: userId,
+  });
+
+  if (isSubscribed) {
+    await Subscription.findByIdAndDelete(isSubscribed?._id);
+    return res
+      .status(200)
+      .json(new ApiResponse(200, null, "Channel Unsubscribed"));
+  } else {
+    await Subscription.create({
+      channel: channelId,
+      subscriber: userId,
+    });
+    return res
+      .status(200)
+      .json(new ApiResponse(200, null, "Channel Subscribed"));
+  }
+});
 
 // controller to return subscriber list of a channel
 const getUserChannelSubscribers = asyncHandler(async (req, res) => {

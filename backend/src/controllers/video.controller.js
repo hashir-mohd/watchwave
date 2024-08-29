@@ -290,17 +290,34 @@ const updateVideo = asyncHandler(async (req, res) => {
         "You can't edit this video as you are not the owner"
         );
     }
-    const video = await Video.findByIdAndUpdate(
-        videoId,
-        {
-            $set: {
-                title,
-                description,
-                thumbnail: thumbnailLocalPath? await uploadOnCloudinary(thumbnailLocalPath, thumbnail_upOptions).url : currentVideo.thumbnail
-            }
-        },
-        { new: true }
-    )
+    let update = {
+      $set: {
+        title,
+        description,
+      },
+    };
+  
+    // If a new thumbnail was provided, add it to the update object
+    if (thumbnailLocalPath) {
+      const thumbnailFile = await uploadOnCloudinary(
+        thumbnailLocalPath,
+        thumbnail_upOptions
+      );
+  
+      if (!thumbnailFile) throw new ApiError(501, "Thumbnail uploading failed");
+  
+      await deleteFromCloudinary(currentVideo?.thumbnail.fileId);
+  
+      update.$set.thumbnail = {
+        fileId: thumbnailFile.public_id,
+        url: thumbnailFile.url,
+      };
+    }
+  
+    const video = await Video.findByIdAndUpdate(videoId, update, {
+      new: true,
+    });
+    
     if(!video){
         throw new ApiError(400, "Error while updating");
     }

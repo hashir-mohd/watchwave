@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import toast from "react-hot-toast";
 import { BASE_URL } from "../constants";
@@ -9,7 +8,7 @@ const API = axios.create({
 });
 
 export const getVideos = async (
-  page = 1,
+  page = null,
   userId = null,
   sortBy = null,
   sortType = null,
@@ -19,21 +18,18 @@ export const getVideos = async (
   try {
     const url = new URL(`${BASE_URL}/video`);
     
-
     if (userId) url.searchParams.set("userId", userId);
     if (sortBy) url.searchParams.set("sortBy", sortBy);
     if (sortType) url.searchParams.set("sortType", sortType);
     if (query) url.searchParams.set("query", query);
-    if (typeof page === 'number' && page > 0) {
-      url.searchParams.set("page", page);
-    }    
-  if (limit) url.searchParams.set("limit", limit);
+    if (page) url.searchParams.set("page", page);   
+    if (limit) url.searchParams.set("limit", limit);
 
     if (sortBy && sortType) {
       url.searchParams.set("sortBy", sortBy);
       url.searchParams.set("sortType", sortType);
     }
-    const response = await API.get(url.href);
+    const response = await API.get(url.href+"/");
 
     return response?.data?.data;
   } catch (error) {
@@ -44,6 +40,7 @@ export const getVideos = async (
 };
 
 export const getVideoById = async (videoId) => {
+  console.log("Getvideo by id called");
   try {
     const { data } = await API.get(`/video/${videoId}`);
     return data?.data;

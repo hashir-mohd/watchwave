@@ -102,9 +102,50 @@ export const toggleSubscribe = async (channelId) => {
   }
 };
 
-export const toggleLike = async (videoId) => {
+export const toggleVideoLike = async (videoId) => {
   try {
     const { data } = await API.post(`/like/toggle/v/${videoId}`);
+    toast.success(data?.message);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};
+
+
+
+
+export const toggleCommentLike = async (commentId) => {
+  try {
+    const { data } = await API.post(`/like/toggle/c/${commentId}`);
+    toast.success(data?.message);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};
+
+export const getAllComments = async (videoId = null, page = null) => {
+  try {
+    const url = new URL(`${BASE_URL}/comment/${videoId}`);
+
+    if (page) url.searchParams.set("page", page);
+    // if (limit) url.searchParams.set("limit", limit);
+    const { data } = await API.get(url.href);
+    console.log(data.data);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};
+
+export const addComment = async (videoId, comment) => {
+  console.log(comment);
+  try {
+    const { data } = await API.post(`/comment/${videoId}`, comment);
     toast.success(data?.message);
     return data?.data;
   } catch (error) {

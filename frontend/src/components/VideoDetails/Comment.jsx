@@ -2,6 +2,7 @@ import React from "react";
 import { timeAgo } from "../../assets/timeAgo";
 import Like from "./Like";
 
+
 function Comment({ comment }) {
   return (
     <>

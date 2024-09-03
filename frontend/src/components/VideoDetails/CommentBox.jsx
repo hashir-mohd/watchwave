@@ -1,7 +1,6 @@
+
 import React, { useEffect } from "react";
 import { Comment, Input, SpButton } from "../index.js";
-import { useSelector } from "react-redux";
-import { useInvalidator } from "../../hooks/queryClient.hook.js";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,7 +10,7 @@ const schema = z.object({
   comment: z.string().min(1),
 });
 
-function CommentBox() {
+function CommentBox({ videoId }) {
   const {
     register,
     handleSubmit,
@@ -21,31 +20,25 @@ function CommentBox() {
     resolver: zodResolver(schema),
   });
 
-  const invalidate = useInvalidator();
-  const videoId = useSelector((state) => state.video.video?._id);
   const { data: comments, fetchNextPage, isFetched } = useComments(videoId);
   const { ref, inView } = useInView();
 
   useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
+    if (inView) fetchNextPage();
   }, [inView]);
 
   const { mutateAsync: addComment } = useAddComment();
+
   const handleAddComment = async (data) => {
     const res = await addComment({ videoId, comment: data.comment });
-    if (res) {
-      invalidate(["comments", videoId]);
-      reset();
-    }
+    if (res) reset();
   };
 
   const totalComments = comments?.pages[0]?.totalDocs;
   return (
     <>
       <button className="peer w-full rounded-lg border p-4 text-left duration-200 hover:bg-white/5 focus:bg-white/5 sm:hidden">
-        <h6 className="font-semibold">{totalComments} Comments...</h6>
+        <h6 className="font-semibold">{totalComments} Comments....</h6>
       </button>
       <div className="fixed inset-x-0 top-full z-[60] h-[calc(100%-69px)] overflow-auto rounded-lg border bg-[#121212] p-4 duration-200 hover:top-[67px] peer-focus:top-[67px] sm:static sm:h-auto sm:max-h-[500px] lg:max-h-none">
         <div className="block">

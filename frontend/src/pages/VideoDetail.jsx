@@ -22,14 +22,16 @@ function VideoDetail() {
   const dispatch = useDispatch();
   const { videoId } = useParams();
   const invalidate = useInvalidator();
+  console.log(videoId);
 
   const { mutateAsync: subscribe } = useSubscribe();
   const { data: video, isLoading, isError } = useVideoById(videoId);
+  console.log(video);
 
   const handleSubscribe = async (channelId) => {
     await subscribe(channelId);
   };
-  console.log(video);
+  // console.log(video);
 
   const userId = useSelector((state) => state.auth.user?._id);
   const isOwner = video?.owner?._id === userId ? true : false;

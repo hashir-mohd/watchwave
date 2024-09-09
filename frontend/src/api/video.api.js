@@ -42,7 +42,8 @@ export const getVideos = async (
 export const getVideoById = async (videoId) => {
   console.log("Getvideo by id called");
   try {
-    const { data } = await API.get(`/video/${videoId}`);
+    const { data } = await API.get(`/video/v/${videoId}`);
+    console.log(data);
     return data?.data;
   } catch (error) {
     toast.error(error?.response?.data?.error);

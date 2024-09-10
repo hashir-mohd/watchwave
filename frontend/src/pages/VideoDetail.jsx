@@ -22,16 +22,14 @@ function VideoDetail() {
   const dispatch = useDispatch();
   const { videoId } = useParams();
   const invalidate = useInvalidator();
-  console.log(videoId);
 
   const { mutateAsync: subscribe } = useSubscribe();
   const { data: video, isLoading, isError } = useVideoById(videoId);
-  console.log(video);
 
   const handleSubscribe = async (channelId) => {
     await subscribe(channelId);
   };
-  // console.log(video);
+  console.log(video);
 
   const userId = useSelector((state) => state.auth.user?._id);
   const isOwner = video?.owner?._id === userId ? true : false;
@@ -97,7 +95,7 @@ function VideoDetail() {
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          aria-hidden="true"
+                          ariaHidden="true"
                         >
                           <path
                             strokeLinecap="round"
@@ -130,7 +128,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                aria-hidden="true"
+                                ariaHidden="true"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -159,7 +157,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                aria-hidden="true"
+                                ariaHidden="true"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -188,7 +186,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                aria-hidden="true"
+                                ariaHidden="true"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -217,7 +215,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                aria-hidden="true"
+                                ariaHidden="true"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -246,7 +244,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                aria-hidden="true"
+                                ariaHidden="true"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -275,7 +273,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                aria-hidden="true"
+                                ariaHidden="true"
                               >
                                 <path
                                   strokeLinecap="round"

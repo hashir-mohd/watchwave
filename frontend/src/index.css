@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+* {
+  box-sizing: border-box;
+}
 .plyr {
   --plyr-color-main: hsl(280, 95%, 39%);
   --plyr-border-radius: 10px;

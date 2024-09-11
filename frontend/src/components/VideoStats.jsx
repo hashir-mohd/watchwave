@@ -1,29 +1,52 @@
-
-import React, { useCallback } from "react";
+import React, { useState } from "react";
 import { useChannelVideos } from "../hooks/studio.hook";
 import { MdModeEditOutline } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-import { useTogglePublish } from "../hooks/video.hook";
+import {
+  useDeleteVideo,
+  useEditVideo,
+  useTogglePublish,
+} from "../hooks/video.hook";
+import DeletePopup from "./DeletePopup";
 
 function VideoStats() {
-  const { data: channelVideos } = useChannelVideos();
+  const [deletePopupId, setDeletePopupId] = useState(null);
+  const { data: channelVideos, isFetching } = useChannelVideos();
+  const [loading, setLoading] = useState(false); // Add loading state
+
 
   const { mutateAsync: toggleVideoPublishStatus } = useTogglePublish();
-
-  // const togglePublishStatus = useCallback(
-  //   async (videoId) => {
-  //     console.
-  //     await toggleVideoPublishStatus(videoId);
-  //   },
-  //   [toggleVideoPublishStatus]
-  // );
+  const { mutateAsync: deleteVideo } = useDeleteVideo();
+  const { mutateAsync: editVideo } = useEditVideo();
 
   const togglePublishStatus = async (videoId) => {
     await toggleVideoPublishStatus(videoId);
   };
 
+  const handleDelete = (videoId) => {
+    setDeletePopupId(videoId);
+  };
+
+  const deleteConfirm = async () => {
+    if (deletePopupId) {
+      setLoading(true); // Set loading to true
+      await deleteVideo(deletePopupId);
+      setLoading(false); // Set loading to false after deletion
+      setDeletePopupId(null);
+    }
+  };
+
+  const deleteCancel = () => {
+    setDeletePopupId(null);
+  };
+
+  if (isFetching) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <>
+      {/* Desktop Layout */}
       <div className="overflow-x-auto rounded-lg md:block hidden">
         <table className="w-full min-w-[1200px] border-collapse border text-white">
           <thead>
@@ -93,7 +116,10 @@ function VideoStats() {
                       <button className="h-5 w-5 hover:text-[#ae7aff]">
                         <MdModeEditOutline className="w-6 h-6" />
                       </button>
-                      <button className="h-5 w-5 hover:text-[#ae7aff]">
+                      <button
+                        className="h-5 w-5 hover:text-[#ae7aff]"
+                        onClick={() => handleDelete(video._id)}
+                      >
                         <MdDelete className="w-6 h-6" />
                       </button>
                     </div>
@@ -102,8 +128,16 @@ function VideoStats() {
               ))}
           </tbody>
         </table>
+        {deletePopupId && (
+          <DeletePopup
+            onDeleteConfirm={deleteConfirm}
+            onCancel={deleteCancel}
+            loading ={loading}
+          />
+        )}
       </div>
 
+      {/* Mobile Layout */}
       <div className="md:hidden flex flex-wrap justify-between text-white">
         {channelVideos &&
           channelVideos.map((video) => (
@@ -112,12 +146,9 @@ function VideoStats() {
               key={video._id}
             >
               <div className="flex flex-col border-white border border-dashed rounded-lg shadow-md overflow-hidden">
-                <div className="p-4 gap-3  flex flex-col ">
+                <div className="p-4 gap-3 flex flex-col">
                   <div className="flex items-center justify-between">
-                    <div
-                      className="flex items-center gap-6
-                    "
-                    >
+                    <div className="flex items-center gap-6">
                       <img
                         className="h-10 w-14 rounded-md object-cover"
                         src={video?.thumbnail.url}
@@ -125,6 +156,13 @@ function VideoStats() {
                       />
                       <h3 className="font-semibold">{video?.title}</h3>
                     </div>
+                    {deletePopupId === video._id && (
+                      <DeletePopup
+                        onDeleteConfirm={() => deleteConfirm(video._id)}
+                        onCancel={() => setDeletePopupId(null)}
+
+                      />
+                    )}
                     <label className="relative inline-block w-12 cursor-pointer ">
                       <input
                         type="checkbox"
@@ -154,19 +192,29 @@ function VideoStats() {
                       Uploaded on{" "}
                       {new Date(video?.createdAt).toLocaleDateString("en-GB")}
                     </p>
-                    <div className="flex   border-gray-700 gap-4">
+                    <div className="flex border-gray-700 gap-4">
                       <button className="h-5 w-5 hover:text-[#ae7aff]">
                         <MdModeEditOutline className="w-6 h-6" />
                       </button>
-                      <button className="h-5 w-5 hover:text-[#ae7aff]">
+                      <button
+                        className="h-5 w-5 hover:text-[#ae7aff]"
+                        onClick={() => handleDelete(video._id)}
+                      >
                         <MdDelete className="w-6 h-6" />
                       </button>
                     </div>
                   </div>
+                  {deletePopupId === video._id && (
+                    <DeletePopup
+                      onDeleteConfirm={() => deleteConfirm(video._id)}
+                      onCancel={() => setDeletePopupId(null)}
+                    />
+                  )}
                 </div>
               </div>
             </div>
           ))}
+        <div className="mb-[14rem]"></div>
       </div>
     </>
   );

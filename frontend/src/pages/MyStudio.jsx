@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { setSideBarFullSize } from "../features/uiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useChannelStats } from "../hooks/studio.hook";
-import { VideoStats, UploadVideo, ProgressBar } from "../components/index.js";
+import { VideoStats, UploadVideo, EditVideo } from "../components/index.js";
 import { setShowUploadVideo } from "../features/uiSlice";
 
 import { FaRegEye } from "react-icons/fa";
@@ -16,6 +16,8 @@ import { IconContext } from "react-icons";
 function MyStudio() {
   const dispatch = useDispatch();
   const channelInfo = useSelector((state) => state.auth.user);
+  const showEdit = useSelector((state) => state.ui.showEditVideo);
+  const showUpload = useSelector((state) => state.ui.showUploadVideo);
 
   useEffect(() => {
     dispatch(setSideBarFullSize(false));
@@ -93,7 +95,9 @@ function MyStudio() {
           </IconContext.Provider>
         </div>
 
-        <UploadVideo />
+        {/* {These are the modals only showned when their respective state in store changes} */}
+        {showUpload && <UploadVideo />}
+        {showEdit && <EditVideo />}
 
         <VideoStats />
       </div>

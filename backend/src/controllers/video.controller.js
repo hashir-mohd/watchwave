@@ -8,6 +8,11 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { Like } from "../models/like.model.js";
 import { Comment } from "../models/comment.model.js";
 import {
+  preprocessAvatar,
+  preprocessVideo,
+  preprocessThumbnail,
+} from "../utils/fileProcessing.js";
+import {
   uploadOnCloudinary,
   deleteFromCloudinary,
 } from "../utils/cloudinary.js";
@@ -337,7 +342,6 @@ const deleteVideo = asyncHandler(async (req, res) => {
 
   if (!deleteVideo) throw new ApiError(500, "Video deletion failed");
 
-  
   await Promise.all([
     Like.deleteMany({ video: videoId }),
     Comment.deleteMany({ video: videoId }),

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const channelSlice = createSlice({
   name: "channel",
   initialState: {
@@ -10,5 +11,6 @@ const channelSlice = createSlice({
     },
   },
 });
+
 export const { setChannel } = channelSlice.actions;
 export default channelSlice.reducer;

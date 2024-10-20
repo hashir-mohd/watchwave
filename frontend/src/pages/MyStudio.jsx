@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { setSideBarFullSize } from "../features/uiSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +17,7 @@ function MyStudio() {
   const channelInfo = useSelector((state) => state.auth.user);
   const showEdit = useSelector((state) => state.ui.showEditVideo);
   const showUpload = useSelector((state) => state.ui.showUploadVideo);
+  const videoForEdit = useSelector((state) => state.video.videoForEdit);
 
   useEffect(() => {
     dispatch(setSideBarFullSize(false));
@@ -96,8 +96,8 @@ function MyStudio() {
         </div>
 
         {/* {These are the modals only showned when their respective state in store changes} */}
-        <UploadVideo />
-        <EditVideo />
+        {showUpload && <UploadVideo />}
+        {showEdit && videoForEdit && <EditVideo />}
 
         <VideoStats />
       </div>

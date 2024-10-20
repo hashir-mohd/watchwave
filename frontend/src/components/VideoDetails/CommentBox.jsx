@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { Comment, Input, SpButton } from "../index.js";
 import { useForm } from "react-hook-form";

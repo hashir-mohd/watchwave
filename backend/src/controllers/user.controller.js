@@ -225,21 +225,19 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
-  try {
-    const user = await User.findById(req.user?._id);
-    const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+  const user = await User.findById(req.user?._id);
 
-    if (!isPasswordCorrect) throw new ApiError(400, "Invalid old password");
-
-    user.password = newPassword;
-    await user.save({ validateBeforeSave: false });
-
-    return res
-      .status(200)
-      .json(new ApiResponse(200, null, "Password changed successfully"));
-  } catch (error) {
-    throw new ApiError(501, "Changing password failed");
+  const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+  if (!isPasswordCorrect) {
+    throw new ApiError(400, "Wrong Current password");
   }
+
+  user.password = newPassword;
+  await user.save({ validateBeforeSave: false });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, null, "Password changed successfully"));
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
@@ -437,7 +435,7 @@ const getWatchHistory = asyncHandler(async (req, res) => {
                 from: "users",
                 localField: "owner",
                 foreignField: "_id",
-                as: "owner",
+                as: "ownerDetails",
                 pipeline: [
                   {
                     $project: {
@@ -446,19 +444,19 @@ const getWatchHistory = asyncHandler(async (req, res) => {
                       avatar: 1,
                     },
                   },
-                  {
-                    $sort: {
-                      "watchHistory.watchedAt": 1,
-                    },
-                  },
                 ],
               },
             },
             {
               $addFields: {
-                owner: {
-                  $first: "$owner",
+                ownerDetails: {
+                  $first: "$ownerDetails",
                 },
+              },
+            },
+            {
+              $sort: {
+                "watchHistory.watchedAt": 1,
               },
             },
           ],
@@ -480,6 +478,35 @@ const getWatchHistory = asyncHandler(async (req, res) => {
   }
 });
 
+const updateChannelInfo = asyncHandler(async (req, res) => {
+  const { username, description } = req.body;
+
+  if (!(username || description)) {
+    throw new ApiError(400, "All fields are required");
+  }
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $set: {
+          username,
+          description,
+        },
+      },
+      {
+        new: true,
+      }
+    ).select("-password -refreshToken");
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, user, "Channel info updated successfully"));
+  } catch (error) {
+    throw new ApiError(501, "Updating channel info failed");
+  }
+});
+
 export {
   registerUser,
   loginUser,
@@ -492,4 +519,5 @@ export {
   updateUserCoverImage,
   getUserChannelProfile,
   getWatchHistory,
+  updateChannelInfo,
 };

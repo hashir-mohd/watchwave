@@ -13,4 +13,5 @@ const store = configureStore({
     channel: channelSlice,
   },
 });
+
 export default store;

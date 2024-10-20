@@ -10,14 +10,14 @@ function Like({ id, isLiked, likesCount, type, className, iconSize }) {
   useEffect(() => {
     setIsLikedState(isLiked);
     setLikesCountState(likesCount);
-  }, [isLiked, likesCount]);
+  }, []);
 
   let like;
   if (type === "comments") {
     ({ mutateAsync: like } = useLike("comment"));
   } else if (type === "videos") {
     ({ mutateAsync: like } = useLike("video"));
-  }else {
+  } else {
     ({ mutateAsync: like } = useLike("tweet"));
   }
 
@@ -34,7 +34,7 @@ function Like({ id, isLiked, likesCount, type, className, iconSize }) {
       <IconContext.Provider value={{ className: `${iconSize}` }}>
         <button
           onClick={handleLike}
-          className={`${className} w-full flex items-center gap-x-1 py-1.5 hover:bg-white/10`}
+          className={`${className} w-full justify-center items-center  flex items-center gap-x-1 py-1.5 hover:bg-white/10`}
         >
           <span className="inline-block">
             {isLikedState ? <FaThumbsUp /> : <FaRegThumbsUp />}

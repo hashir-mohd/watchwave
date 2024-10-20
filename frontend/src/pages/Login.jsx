@@ -10,35 +10,16 @@ import toast from "react-hot-toast";
 import { setUser } from "../features/authSlice.js";
 
 function Login() {
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    
-    const schema = z.object({
-        usernameOrEmail: z
-          .string()
-          .min(1, "Username or email is required")
-          .refine((value) => {
-            // Check if the value is a valid email
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailPattern.test(value) || value.length >= 4;
-          }, {
-            message: "Enter a valid email or username (minimum 4 characters)",
-          })
-          .refine((value) => {
-            // Check if username has no spaces and is all lowercase
-            if (value.includes("@")) return true; // Skip email validation for username checks
-            return !value.includes(" ") && value === value.toLowerCase();
-          }, {
-            message: "Username must be all lowercase and contain no spaces",
-          }),
-        password: z.string().min(6, "Password must be at least 6 characters long"),
-      });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const schema = z.object({
+    usernameOrEmail: z.string().min(3),
+    password: z.string().min(6),
+  });
 
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
@@ -47,75 +28,55 @@ function Login() {
   const { mutateAsync: login, isPending, isError, error } = useLogin();
 
   const loginUser = async (data) => {
-    
     const session = await login(data);
-    if(session){
+    if (session) {
       dispatch(setUser(session));
       navigate("/");
     }
-    if (error) {
-      toast.error(error)
-    };
-    
+  };
 
-};
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-    <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-      <div className="flex justify-center mb-6">
-        <Logo className="w-24 h-auto" />
-      </div>
-      <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
-      <p className="text-center mb-4 text-gray-600">
-        Don't have an account?{' '}
-        <Link to="/signup" className="text-blue-500 hover:underline">
-          Signup
-        </Link>
-      </p>
-      <form onSubmit={handleSubmit(loginUser)} className="space-y-4">
-        <div>
-          <label htmlFor="usernameOrEmail" className="block text-sm font-medium text-gray-700 mb-1">
-            Username/Email*
-          </label>
+    <div className="h-screen overflow-y-auto bg-[#121212] text-white flex justify-center items-center">
+      <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
+        <Logo
+          className={" w-full text-center text-2xl font-semibold uppercase"}
+        />
+
+        <div className="w-full flex flex-col items-center justify-center mb-6">
+          <h1 className="text-2xl">Login</h1>
+          <span>
+            dont have an account?
+            <Link to="/signup" className="text-blue-500 inline">
+              Signup
+            </Link>
+          </span>
+        </div>
+        <form onSubmit={handleSubmit(loginUser)} className="flex flex-col">
           <Input
+            label={"Username/Email*"}
             type="text"
-            id="usernameOrEmail"
-            placeholder="johnwick7 or johnwick@example.com"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("usernameOrEmail")}
+            placeholder="johnwick7"
+            id={"username"}
+            {...register("usernameOrEmail", {
+              required: true,
+            })}
           />
-          {errors.usernameOrEmail && (
-            <p className="mt-1 text-sm text-red-600">{errors.usernameOrEmail.message}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-            Password*
-          </label>
           <Input
+            label={"Password*"}
             type="password"
-            id="password"
             placeholder="*******"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("password")}
+            id={"password"}
+            {...register("password", {
+              required: true,
+            })}
+            className="mb-4"
           />
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
-          )}
-        </div>
-        <div className="flex justify-center">
-          
-        <SpButton type="submit">
+          <SpButton type="submit">
             {isPending ? "Logging In" : "Login"}
           </SpButton>
-
-
-
-          
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
   );
 }
 

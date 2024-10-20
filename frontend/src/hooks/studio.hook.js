@@ -5,7 +5,7 @@ export const useChannelStats = () => {
   return useQuery({
     queryKey: ["channelStats"],
     queryFn: getChannelStats,
-    });
+  });
 };
 
 export const useChannelVideos = () => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useUserChannelInfo } from "../hooks/user.hook";
 import { Outlet, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,15 +6,21 @@ import { MdModeEditOutline } from "react-icons/md";
 import { setChannel } from "../features/channelSlice";
 import { SpButton } from "../components";
 import SubscribeButton from "../components/SubscribeButton";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import defaultCover from "../assets/default-cover-photo.jpg";
 
-function MyContent() {
+function MyChannel() {
   const { username } = useParams();
   const dispatch = useDispatch();
   const ownerUsername = useSelector((state) => state.auth.user?.username);
   const { data: channelInfo } = useUserChannelInfo(username);
   const isOwner = ownerUsername === username ? true : false;
-  dispatch(setChannel(channelInfo));
+
+  useEffect(() => {
+    if (channelInfo) {
+      dispatch(setChannel(channelInfo));
+    }
+  }, [channelInfo, dispatch]);
 
   const channelItems = [
     {
@@ -30,15 +36,20 @@ function MyContent() {
       path: "tweets",
     },
     {
-      name: "Subscribed",
-      path: "subscriptions",
+      name: "Subscribers",
+      path: "subscribers",
     },
   ];
+
+  console.log(channelInfo);
   return (
     <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
       <div className="relative min-h-[150px] w-full pt-[16.28%]">
         <div className="absolute inset-0 overflow-hidden">
-          <img src={channelInfo?.thumbnail?.url || ""} alt="cover-photo" />
+          <img
+            src={channelInfo?.coverImage?.url || defaultCover}
+            alt="cover-photo object-contain"
+          />
         </div>
       </div>
       <div className="px-4 pb-4">
@@ -57,6 +68,10 @@ function MyContent() {
               {channelInfo?.subscribersCount} Subscribers ·
               {channelInfo?.subscribedToCount} Subscribed
             </p>
+            <p>
+              {channelInfo?.description ||
+                `This channel doesn't have a description yet.`}
+            </p>
           </div>
           <div className="inline-block">
             <div className="inline-flex min-w-[145px] justify-end">
@@ -69,15 +84,17 @@ function MyContent() {
               )}
 
               {isOwner && (
-                <SpButton className="flex items-center  gap-3">
-                  {" "}
-                  <MdModeEditOutline /> Edit
-                </SpButton>
+                <Link to="/edit-profile/personal-info">
+                  <SpButton className="flex items-center  gap-3">
+                    {" "}
+                    <MdModeEditOutline /> Edit
+                  </SpButton>
+                </Link>
               )}
             </div>
           </div>
         </div>
-        <ul className="no-scrollbar sticky top-[66px] z-[2] flex flex-row gap-x-2 overflow-auto border-b-2 border-gray-400 bg-[#121212] py-2 sm:top-[82px]">
+        <ul className="no-scrollbar sticky top-[66px] z-[2] mx-2 flex flex-row justify-between gap-x-2 overflow-auto border-b-2 border-gray-400 bg-[#121212] py-2 sm:top-[82px]">
           {channelItems.map((item, index) => (
             <li key={index} className="w-full">
               <NavLink
@@ -100,4 +117,4 @@ function MyContent() {
   );
 }
 
-export default MyContent;
+export default MyChannel;

@@ -4,15 +4,20 @@ import Login from "./Login";
 import VideoDetail from "./VideoDetail";
 import LikedVideos from "./LikedVideos";
 import History from "./History";
-import MyContent from "./MyContent";
+import MyChannel from "./MyChannel";
 import MyStudio from "./MyStudio";
 import Subscriptions from "./Subscriptions";
+import EditProfile from "./EditProfile";
+import Support from "./Support";
 
 import ChannelPlaylist from "./Channel/ChannelPlaylist";
-import ChannelSubscribed from "./Channel/ChannelSubscribed";
+import ChannelSubscribers from "./Channel/ChannelSubscribers";
 import ChannelTweets from "./Channel/ChannelTweets";
 import ChannelVideos from "./Channel/ChannelVideos";
 
+import EditChangePassword from "./EditProfile/EditChangePassword";
+import EditChannelInfo from "./EditProfile/EditChannelInfo";
+import EditPersonalInfo from "./EditProfile/EditPersonalInfo";
 export {
   Home,
   Signup,
@@ -21,10 +26,15 @@ export {
   LikedVideos,
   History,
   MyStudio,
-  MyContent,
+  MyChannel,
   Subscriptions,
   ChannelPlaylist,
-  ChannelSubscribed,
+  ChannelSubscribers,
   ChannelTweets,
   ChannelVideos,
+  EditProfile,
+  EditChangePassword,
+  EditPersonalInfo,
+  EditChannelInfo,
+  Support,
 };

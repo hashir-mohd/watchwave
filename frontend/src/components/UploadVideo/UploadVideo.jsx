@@ -10,12 +10,9 @@ import { setShowUploadVideo } from "../../features/uiSlice.js";
 import toast from "react-hot-toast";
 
 function UploadVideo() {
-  const showStatus = useSelector((state) => state.ui.showUploadVideo);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-
   const [resetStatus, setResetStatus] = useState(false);
-  const [closeStatus, setCloseStatus] = useState(false);
 
   const { mutateAsync: uploadVideo, isPending } = useUploadVideo();
   const onSave = async (data) => {
@@ -33,12 +30,9 @@ function UploadVideo() {
       });
       return;
     }
-    setResetStatus((prevStatus) => !prevStatus);
 
     dispatch(setShowUploadVideo(false));
   };
-
-  console.log("upload video");
 
   const handleReset = () => {
     if (isPending) {
@@ -47,14 +41,13 @@ function UploadVideo() {
       });
       return;
     }
-    setResetStatus((prevStatus) => !prevStatus);
+    setResetStatus((prev) => !prev);
   };
 
   return (
     <div
-      className={`${
-        showStatus ? "" : "hidden"
-      } mt-16 ml-0 overflow-x-hidden  sm:ml-8 absolute  inset-0 z-10 bg-black/50 px-4 w-full  pb-[80px] pt-4 sm:px-14 sm:py-8`}
+      className="
+       mt-16 ml-0 overflow-x-hidden  sm:ml-8 absolute  inset-0 z-10 bg-black/50 px-4 w-full  pb-[80px] pt-4 sm:px-14 sm:py-8"
     >
       <div className="h-full overflow-auto border bg-[#121212] ">
         <div className="flex items-center justify-between border-b p-4">
@@ -72,9 +65,8 @@ function UploadVideo() {
         {isPending && <ProgressBar />}{" "}
         <VideoForm
           onSubmit={onSave}
-          closeStatus={closeStatus}
-          resetStatus={resetStatus}
           user={user}
+          resetStatus={resetStatus}
           isPending={isPending}
         />
       </div>

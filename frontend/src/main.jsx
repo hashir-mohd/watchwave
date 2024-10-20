@@ -9,14 +9,19 @@ import {
   Login,
   VideoDetail,
   LikedVideos,
-  MyContent,
+  MyChannel,
   MyStudio,
   Subscriptions,
   History,
   ChannelPlaylist,
-  ChannelSubscribed,
+  ChannelSubscribers,
   ChannelVideos,
   ChannelTweets,
+  EditPersonalInfo,
+  EditChangePassword,
+  EditProfile,
+  EditChannelInfo,
+  Support,
 } from "./pages/index.js";
 import AuthLayout from "./components/AuthLayout.jsx";
 import { Provider } from "react-redux";
@@ -66,7 +71,7 @@ const router = createBrowserRouter([
         path: "/channel/:username",
         element: (
           <AuthLayout auth>
-            <MyContent />
+            <MyChannel />
           </AuthLayout>
         ),
         children: [
@@ -95,10 +100,10 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "subscriptions",
+            path: "subscribers",
             element: (
               <AuthLayout auth>
-                <ChannelSubscribed />
+                <ChannelSubscribers />
               </AuthLayout>
             ),
           },
@@ -117,6 +122,48 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout auth>
             <Subscriptions />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/edit-profile",
+        element: (
+          <AuthLayout auth>
+            <EditProfile />
+          </AuthLayout>
+        ),
+        children: [
+          {
+            path: "change-password",
+            element: (
+              <AuthLayout auth>
+                <EditChangePassword />
+              </AuthLayout>
+            ),
+          },
+          {
+            path: "channel-info",
+            element: (
+              <AuthLayout auth>
+                <EditChannelInfo />
+              </AuthLayout>
+            ),
+          },
+          {
+            path: "personal-info",
+            element: (
+              <AuthLayout auth>
+                <EditPersonalInfo />
+              </AuthLayout>
+            ),
+          },
+        ],
+      },
+      {
+        path: "/support",
+        element: (
+          <AuthLayout auth>
+            <Support />
           </AuthLayout>
         ),
       },

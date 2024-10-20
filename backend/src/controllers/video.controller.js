@@ -342,6 +342,7 @@ const deleteVideo = asyncHandler(async (req, res) => {
 
   if (!deleteVideo) throw new ApiError(500, "Video deletion failed");
 
+  // delete video likes, comments and cloudinary files in parallel
   await Promise.all([
     Like.deleteMany({ video: videoId }),
     Comment.deleteMany({ video: videoId }),

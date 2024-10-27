@@ -137,22 +137,22 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
               pipeline: [
                 {
                   $match: {
-                    isPublished: true,
-                  },
+                    isPublished: true
+                  }
                 },
                 {
-                  $sort: { createdAt: -1 },
+                  $sort: { createdAt: -1 }
                 },
                 {
-                  $limit: 1,
-                },
-              ],
+                  $limit: 1
+                }
+              ]
             },
           },
           {
             $addFields: {
               latestVideo: {
-                $arrayElemAt: ["$videos", 0],
+                $arrayElemAt: ["$videos", 0]
               },
             },
           },

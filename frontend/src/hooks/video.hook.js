@@ -6,32 +6,45 @@ import {
   deleteVideo,
   editVideo,
   togglePublishStatus,
+  getNextVideos,
+  updateVideoViews,
 } from "../api/video.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-export const useVideos = (userId) => {
+export const useVideos = (options = {}) => {
+  const { userId, sortBy, sortType, query } = options;
+
   return useInfiniteQuery({
-    queryKey: userId ? ["videos", userId] : ["videos"],
+    queryKey: ["videos", { userId, sortBy, sortType, query }],
     queryFn: ({ pageParam = 1 }) =>
-      userId ? getVideos(pageParam, userId) : getVideos(pageParam),
+      getVideos(pageParam, userId, sortBy, sortType, query),
     getNextPageParam: (lastPage) => {
       if (lastPage.hasNextPage === false) return;
       return lastPage.nextPage;
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
 
-export const useVideoById = (videoId) => {
+export const useVideoById = (videoId, isAuthenticated) => {
   const queryClient = useQueryClient();
 
   return useQuery({
     queryKey: ["video", videoId],
-    queryFn: () => getVideoById(videoId),
+    queryFn: () =>
+      isAuthenticated ? getVideoById(videoId) : getVideoById(videoId, false),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["watchHistory"] });
     },
     staleTime: 1000 * 60 * 2,
+  });
+};
+
+export const useNextVideos = (videoId) => {
+  return useQuery({
+    queryKey: ["nextVideos", videoId],
+    queryFn: () => getNextVideos(videoId),
+    staleTime: 1000 * 60 * 3,
   });
 };
 
@@ -78,6 +91,16 @@ export const useEditVideo = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["videos"] });
       queryClient.invalidateQueries({ queryKey: ["channelVideos"] });
+    },
+  });
+};
+
+export const useUpdateVideoViews = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (videoId) => updateVideoViews(videoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["videos"] });
     },
   });
 };

@@ -28,11 +28,6 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
-const options = {
-  httpOnly: true,
-  secure: true,
-};
-
 const registerUser = asyncHandler(async (req, res) => {
   //get user details from frontend
   //validation - not empty
@@ -84,11 +79,11 @@ const registerUser = asyncHandler(async (req, res) => {
     fullName,
     avatar: {
       fileId: avatar.public_id,
-      url: avatar.url,
+      url: avatar.secure_url,
     },
     coverImage: {
       fileId: coverImage?.public_id || "",
-      url: coverImage?.url || "",
+      url: coverImage?.secure_url || "",
     },
     email,
     password,
@@ -130,21 +125,21 @@ const loginUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
 
-  return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(
-      new ApiResponse(
-        200,
-        {
-          user: loggedInUser,
-          accessToken,
-          refreshToken,
-        },
-        "User logged in Successfully"
-      )
-    );
+  res.setHeader("Set-Cookie", [
+    `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=None`,
+    `refreshToken=${refreshToken}; Max-Age=${15 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=None`,
+  ]);
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        user: loggedInUser,
+        accessToken,
+        refreshToken,
+      },
+      "User logged in Successfully"
+    )
+  );
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -164,10 +159,13 @@ const logoutUser = asyncHandler(async (req, res) => {
     }
   );
 
+  res.setHeader("Set-Cookie", [
+    "accessToken=; Max-Age=-1; Path=/; HttpOnly; Secure; SameSite=None",
+    "refreshToken=; Max-Age=-1; Path=/; HttpOnly; Secure; SameSite=None",
+  ]);
+
   return res
     .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
 
@@ -187,17 +185,20 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     if (!user) throw new ApiError(401, "Invalid refresh Token");
 
-    if (incomingRefreshToken !== user?.refreshAccessToken) {
+    if (incomingRefreshToken !== user?.refreshToken) {
       throw new ApiError(401, "Refresh token is Expired or used");
     }
 
     const { accessToken, newRefreshToken } =
       await generateAccessAndRefreshTokens(user._id);
 
+    res.setHeader("Set-Cookie", [
+      `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=None`,
+      `refreshToken=${newRefreshToken}; Max-Age=${15 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=None`,
+    ]);
+
     return res
       .status(200)
-      .cookie("accessToken", accessToken, options)
-      .cookie("refreshToken", newRefreshToken, options)
       .json(
         new ApiResponse(
           200,
@@ -277,7 +278,8 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   try {
     const avatar = await uploadOnCloudinary(avatarLocalPath, avatar_upOptions);
 
-    if (!avatar.url) throw new ApiError(501, "Error while uploading Avatar");
+    if (!avatar.secure_url)
+      throw new ApiError(501, "Error while uploading Avatar");
 
     await deleteFromCloudinary(req.user?.avatar.fileId);
 
@@ -287,7 +289,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
         $set: {
           avatar: {
             fileId: avatar.public_id,
-            url: avatar.url,
+            url: avatar.secure_url,
           },
         },
       },
@@ -315,7 +317,8 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
       coverImageLocalPath,
       coverImg_upOptions
     );
-    if (!coverImage.url)
+
+    if (!coverImage.secure_url)
       throw new ApiError(501, "Error while uploading Cover Image");
 
     await deleteFromCloudinary(req.user?.coverImage.fileId);
@@ -325,7 +328,7 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
         $set: {
           coverImage: {
             fileId: coverImage.public_id,
-            url: coverImage.url,
+            url: coverImage.secure_url,
           },
         },
       },
@@ -400,6 +403,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
           subscribedToCount: 1,
           isSubscribed: 1,
           createdAt: 1,
+          description: 1,
         },
       },
     ]);
@@ -417,10 +421,18 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
 
 const getWatchHistory = asyncHandler(async (req, res) => {
   try {
-    const user = await User.aggregate([
+    const watchHistory = await User.aggregate([
       {
         $match: {
           _id: new mongoose.Types.ObjectId(req.user._id),
+        },
+      },
+      {
+        $unwind: "$watchHistory",
+      },
+      {
+        $sort: {
+          "watchHistory.watchedAt": -1,
         },
       },
       {
@@ -428,38 +440,41 @@ const getWatchHistory = asyncHandler(async (req, res) => {
           from: "videos",
           localField: "watchHistory.video",
           foreignField: "_id",
-          as: "watchHistory",
+          as: "video",
+        },
+      },
+      {
+        $unwind: "$video",
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "video.owner",
+          foreignField: "_id",
+          as: "ownerDetails",
           pipeline: [
             {
-              $lookup: {
-                from: "users",
-                localField: "owner",
-                foreignField: "_id",
-                as: "ownerDetails",
-                pipeline: [
-                  {
-                    $project: {
-                      username: 1,
-                      fullName: 1,
-                      avatar: 1,
-                    },
-                  },
-                ],
-              },
-            },
-            {
-              $addFields: {
-                ownerDetails: {
-                  $first: "$ownerDetails",
-                },
-              },
-            },
-            {
-              $sort: {
-                "watchHistory.watchedAt": 1,
+              $project: {
+                username: 1,
+                fullName: 1,
+                avatar: 1,
               },
             },
           ],
+        },
+      },
+      {
+        $addFields: {
+          "video.ownerDetails": {
+            $first: "$ownerDetails",
+          },
+          "video.watchedAt": "$watchHistory.watchedAt",
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          video: 1,
         },
       },
     ]);
@@ -467,11 +482,7 @@ const getWatchHistory = asyncHandler(async (req, res) => {
     return res
       .status(200)
       .json(
-        new ApiResponse(
-          200,
-          user[0].watchHistory,
-          "Watch history fetched successfully"
-        )
+        new ApiResponse(200, watchHistory, "Watch history fetched successfully")
       );
   } catch (error) {
     throw new ApiError(501, "Fetching watch history failed");
@@ -507,6 +518,24 @@ const updateChannelInfo = asyncHandler(async (req, res) => {
   }
 });
 
+const clearWatchHistory = asyncHandler(async (req, res) => {
+  const isCleared = await User.findByIdAndUpdate(
+    new mongoose.Types.ObjectId(req.user?._id),
+    {
+      $set: {
+        watchHistory: [],
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  if (!isCleared) throw new ApiError(500, "Failed to clear history");
+  return res
+    .status(200)
+    .json(new ApiResponse(200, [], "History Cleared Successfully"));
+});
+
 export {
   registerUser,
   loginUser,
@@ -520,4 +549,5 @@ export {
   getUserChannelProfile,
   getWatchHistory,
   updateChannelInfo,
+  clearWatchHistory,
 };

@@ -8,17 +8,28 @@ function Subscriptions() {
   const userId = useSelector((state) => state.auth.user._id);
 
   const { data: subscriptions } = useSubscribedChannels(userId);
+  console.log(subscriptions);
 
+  if (subscriptions && subscriptions.length === 0) {
+    return (
+      <div className="container mx-auto px-2">
+        <h1 className="text-3xl font-bold my-2">Subscriptions</h1>
+        <p className="text-lg">You are not subscribed to any channels</p>
+      </div>
+    );
+  }
   return (
     <div className="container mx-auto px-2">
       <h1 className="text-3xl font-bold my-2">Subscriptions</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-10 gap-2">
         {subscriptions &&
           subscriptions.map((channel) => (
-            <ChannelSubscribed
+            <Link
+              to={`/channel/${channel?.subscribedChannel?.username}`}
               key={channel?.subscribedChannel?._id}
-              channel={channel?.subscribedChannel}
-            />
+            >
+              <ChannelSubscribed channel={channel?.subscribedChannel} />
+            </Link>
           ))}
       </div>
       <div>

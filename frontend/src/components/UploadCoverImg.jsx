@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function UploadCoverImg() {
-    return (
-        <div>UploadCoverImg</div>
-    )
+  return <div>UploadCoverImg</div>;
 }
 
-export default UploadCoverImg
+export default UploadCoverImg;

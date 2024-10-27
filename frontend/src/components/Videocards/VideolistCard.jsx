@@ -10,9 +10,9 @@ const VideolistCard = ({ video, owner }) => {
             <div className="w-full pt-[56%]">
               <div className="absolute inset-0">
                 <img
-                  src={video?.thumbnail.url}
+                  src={video?.thumbnail?.url}
                   alt={video?.title}
-                  className="h-full w-full"
+                  className="h-full w-full object-cover"
                 />
               </div>
               <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
@@ -33,7 +33,7 @@ const VideolistCard = ({ video, owner }) => {
                 {video?.title}
               </h6>
               <p className="flex text-sm text-gray-200 sm:mt-3">
-                {video?.views} Views · {timeAgo(video?.createdAt)}
+                {video?.views} Views · {timeAgo(video?.createdAt)}
               </p>
               <div className="flex items-center gap-x-4">
                 <div className="mt-2 hidden h-10 w-10 shrink-0 md:block">
@@ -48,7 +48,7 @@ const VideolistCard = ({ video, owner }) => {
                 </p>
               </div>
               <p className="mt-2 hidden text-sm md:block">
-                {video?.description.length > 100
+                {video?.description?.length > 100
                   ? video?.description.slice(0, 100) + "..."
                   : video?.description}
               </p>

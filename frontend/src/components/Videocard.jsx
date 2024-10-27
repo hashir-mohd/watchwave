@@ -9,7 +9,7 @@ function Videocard({ video }) {
           <img
             src={video?.thumbnail?.url}
             alt={video?.title}
-            className="h-full w-full object-cover"
+            className="h-full w-full  border-[#000000] rounded-xl  object-cover"
           />
         </div>
         <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">

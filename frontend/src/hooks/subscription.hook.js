@@ -10,8 +10,15 @@ export const useSubscribe = () => {
   return useMutation({
     mutationFn: (channelId) => toggleSubscribe(channelId),
     onSuccess: () => {
-      queryClient.invalidateQueries("subscribedChannels");
-      queryClient.invalidateQueries("channelSubscribers");
+      queryClient.invalidateQueries({
+        queryKey: ["subscribedChannels"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["video"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["channelSubscribers"],
+      });
     },
   });
 };

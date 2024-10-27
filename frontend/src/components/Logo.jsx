@@ -1,11 +1,24 @@
 import React from "react";
 
-function Logo({ className }) {
+function Logo({ className, inline = false, mobile = false }) {
   return (
     <div
-      className={`font-bold text-xl w-full ${className} text-[hsl(280,95%,39%)]`}
+      className={`font-bold text-xl flex items-center justify-center w-full ${className} text-purple-500 italic`}
     >
-      YT-Tweets
+      {/* <img
+        src="/shadowplay-icon.jpeg"
+        alt="logo"
+        className="w-10 h-10 inline-block mr-2"
+      /> */}
+
+      <div
+        className={`flex ${inline ? "flex-row" : " flex-col"} ${
+          mobile && "hidden md:block"
+        }`}
+      >
+        <div>Watch Wave</div>
+        {/* <div>Wave</div> */}
+      </div>
     </div>
   );
 }

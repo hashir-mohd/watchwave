@@ -28,7 +28,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
   if (query) {
     pipeline.push({
       $search: {
-        index: "search-videos",
+        index: "abc",
         text: {
           query: query,
           path: ["title", "description"],
@@ -133,11 +133,11 @@ const publishAVideo = asyncHandler(async (req, res) => {
   const video = await Video.create({
     video: {
       fileId: videoFile.public_id,
-      url: videoFile.playback_url,
+      url: videoFile.url,
     },
     thumbnail: {
       fileId: thumbnailFile.public_id,
-      url: thumbnailFile.url,
+      url: thumbnailFile.secure_url,
     },
     duration: videoFile.duration,
     title,
@@ -153,11 +153,100 @@ const publishAVideo = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, video, "Video published successfully"));
 });
 
-const getVideoById = asyncHandler(async (req, res) => {
+const getVideoByIdForGuest = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
   if (!videoId?.trim()) throw new ApiError(400, "Video Id is missing");
 
   if (!isValidObjectId(videoId)) throw new ApiError(400, "Invalid VideoID");
+
+  const video = await Video.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(videoId),
+        isPublished: true,
+      },
+    },
+    {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "video",
+        as: "likes",
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $lookup: {
+              from: "subscriptions",
+              localField: "_id",
+              foreignField: "channel",
+              as: "subscribers",
+            },
+          },
+          {
+            $addFields: {
+              subscribersCount: {
+                $size: "$subscribers",
+              },
+              isSubscribed: false,
+            },
+          },
+          {
+            $project: {
+              username: 1,
+              "avatar.url": 1,
+              subscribersCount: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        likesCount: {
+          $size: "$likes",
+        },
+        owner: {
+          $first: "$owner",
+        },
+        isLiked: false,
+      },
+    },
+    {
+      $project: {
+        "video.url": 1,
+        title: 1,
+        description: 1,
+        views: 1,
+        createdAt: 1,
+        duration: 1,
+        comments: 1,
+        owner: 1,
+        likesCount: 1,
+        isLiked: 1,
+        isSubscribed: 1,
+      },
+    },
+  ]);
+
+  if (!video) throw new ApiError(404, "Video not found");
+
+  return res.status(200).json(new ApiResponse(200, video[0], "Video found"));
+});
+
+const getVideoById = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+  const isGuest = req.query.guest === "true";
+
+  if (!videoId?.trim()) throw new ApiError(400, "Video Id is missing");
+  if (!isValidObjectId(videoId)) throw new ApiError(400, "Invalid VideoID");
+
   const video = await Video.aggregate([
     {
       $match: {
@@ -194,11 +283,17 @@ const getVideoById = asyncHandler(async (req, res) => {
               },
               isSubscribed: {
                 $cond: {
-                  if: {
-                    $in: [req.user?._id, "$subscribers.subscriber"],
+                  if: isGuest,
+                  then: false,
+                  else: {
+                    $cond: {
+                      if: {
+                        $in: [req.user?._id, "$subscribers.subscriber"],
+                      },
+                      then: true,
+                      else: false,
+                    },
                   },
-                  then: true,
-                  else: false,
                 },
               },
             },
@@ -206,6 +301,7 @@ const getVideoById = asyncHandler(async (req, res) => {
           {
             $project: {
               username: 1,
+              fullName: 1,
               "avatar.url": 1,
               subscribersCount: 1,
               isSubscribed: 1,
@@ -224,9 +320,15 @@ const getVideoById = asyncHandler(async (req, res) => {
         },
         isLiked: {
           $cond: {
-            if: { $in: [req.user?._id, "$likes.likedBy"] },
-            then: true,
-            else: false,
+            if: isGuest,
+            then: false,
+            else: {
+              $cond: {
+                if: { $in: [req.user?._id, "$likes.likedBy"] },
+                then: true,
+                else: false,
+              },
+            },
           },
         },
       },
@@ -243,27 +345,13 @@ const getVideoById = asyncHandler(async (req, res) => {
         owner: 1,
         likesCount: 1,
         isLiked: 1,
-        "thumbnail.url": 1,
+        isSubscribed: 1,
+        subscribersCount: 1,
       },
     },
   ]);
 
-  if (!video) throw new ApiError(404, "Video not found");
-
-  await Video.findByIdAndUpdate(videoId, {
-    $inc: {
-      views: 1,
-    },
-  });
-
-  await User.findByIdAndUpdate(req.user?._id, {
-    $push: {
-      watchHistory: {
-        video: videoId,
-        watchedAt: Date.now(),
-      },
-    },
-  });
+  if (!video.length) throw new ApiError(404, "Video not found");
 
   return res.status(200).json(new ApiResponse(200, video[0], "Video found"));
 });
@@ -316,7 +404,7 @@ const updateVideo = asyncHandler(async (req, res) => {
 
     update.$set.thumbnail = {
       fileId: thumbnailFile.public_id,
-      url: thumbnailFile.url,
+      url: thumbnailFile.secure_url,
     };
   }
 
@@ -371,6 +459,103 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, video, "Video publish status updated"));
 });
 
+const getNextVideos = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  if (!isValidObjectId(videoId)) throw new ApiError(400, "Invalid videoId");
+
+  const video = await Video.findById(videoId);
+
+  if (!video) throw new ApiError(404, "Video not found");
+
+  const nextVideos = await Video.aggregate([
+    {
+      $match: {
+        _id: {
+          $ne: new mongoose.Types.ObjectId(videoId),
+        },
+        isPublished: true,
+      },
+    },
+    {
+      $sample: {
+        size: 10,
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "ownerDetails",
+        pipeline: [
+          {
+            $project: {
+              username: 1,
+              "avatar.url": 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: "$ownerDetails",
+    },
+  ]);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, nextVideos, "Next videos fetched successfully"));
+});
+
+const updateVideoViews = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+  const userId = req.user?._id;
+
+  if (!isValidObjectId(videoId)) {
+    throw new ApiError(400, "Invalid videoId");
+  }
+
+  const video = await Video.findById(videoId);
+  if (!video) {
+    throw new ApiError(404, "Video not found");
+  }
+
+  // Find the user and check if they've watched this video before
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  const watchHistoryEntry = user.watchHistory.find(
+    (entry) => entry.video.toString() === videoId
+  );
+
+  if (!watchHistoryEntry) {
+    // User hasn't watched this video before
+    // Increment view count
+    await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
+
+    // Add to watch history
+    user.watchHistory.push({
+      video: videoId,
+      watchedAt: new Date(),
+    });
+
+    await user.save();
+  } else {
+    // User has watched this video before, just update the watchedAt
+    watchHistoryEntry.watchedAt = new Date();
+    await user.save();
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, { video, user }, "Video views updated successfully")
+    );
+});
+
 export {
   getAllVideos,
   publishAVideo,
@@ -378,4 +563,7 @@ export {
   updateVideo,
   deleteVideo,
   togglePublishStatus,
+  getNextVideos,
+  updateVideoViews,
+  getVideoByIdForGuest,
 };

@@ -7,6 +7,7 @@ import {
   updateUserProfile,
   updateAccountDetails,
   updateChannelInfo,
+  clearWatchHistory,
 } from "../api/user.api";
 
 export const useWatchHistory = () => {
@@ -50,8 +51,8 @@ export const useUpdateAccountDetails = () => {
   return useMutation({
     mutationFn: (data) => updateAccountDetails(data),
     onSuccess: () => {
-      queryClient.invalidateQueries("channelInfo");
-      queryClient.invalidateQueries("currentUser");
+      queryClient.invalidateQueries({ queryKey: ["channelInfo"] });
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
     },
   });
 };
@@ -61,10 +62,18 @@ export const useUpdateChannelInfo = () => {
   return useMutation({
     mutationFn: (data) => updateChannelInfo(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["currentUser"],
-        queryKey: ["channelInfo"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+      queryClient.invalidateQueries({ queryKey: ["channelInfo"] });
+    },
+  });
+};
+
+export const useClearWatchHistory = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => clearWatchHistory(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["watchHistory"] });
     },
   });
 };

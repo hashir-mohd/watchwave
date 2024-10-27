@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function UploadProfileImg() {
-    return (
-        <dev>UploadProfileImg</dev>
-    )
+  return <div>UploadProfileImg</div>;
 }
 
-export default UploadProfileImg
+export default UploadProfileImg.jsx;

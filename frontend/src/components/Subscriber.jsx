@@ -15,7 +15,7 @@ function Subscriber({ subscriber }) {
         <div className="block">
           <h6 className="font-semibold">{subscriber?.fullName}</h6>
           <p className="text-sm text-gray-300">
-            {subscriber?.subscribersCount} Subscribers
+            {subscriber?.subscribersCount} Subscribers
           </p>
         </div>
       </div>

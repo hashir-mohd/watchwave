@@ -65,12 +65,13 @@ function Signup() {
       <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
         <Logo
           className={" w-full text-center text-2xl font-semibold uppercase"}
+          inline={true}
         />
 
         <div className="w-full flex flex-col items-center justify-center mb-6">
           <h1 className="text-2xl">Signup</h1>
           <span>
-            already have an account?
+            Already have an account?
             <Link to="/login" className="text-blue-500 inline">
               Login
             </Link>

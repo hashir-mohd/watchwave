@@ -7,7 +7,7 @@ import Button from "./Button";
 import Videocard from "./Videocard";
 import Input from "./Input";
 import LoginPopup from "./LoginPopup";
-import NextVideoCard from "./NextVideoCard";
+
 import VideoPlayer from "./VideoPlayer";
 import Like from "./VideoDetails/Like";
 import CommentBox from "./VideoDetails/CommentBox";
@@ -31,14 +31,33 @@ import ChannelSubscribed from "./ChannelSubscribed";
 import AvatarInput from "./Profile/AvatarInput";
 import CoverImageInput from "./Profile/CoverImageInput";
 import PlaylistDropdown from "./Playlist/PlaylistDropdown";
+import PlaylistCard from "./Playlist/PlaylistCard";
+import PlaylistForm from "./Playlist/PlaylistForm";
 
 import LoadingSpinner from "./Loading/LoadingSpinner";
 import VideoCardSkeleton from "./Loading/VideoCardSkeleton";
 import VideoStatsSkeleton from "./Loading/VideoStatsSkeleton";
 import VideolistCardSkeleton from "./Loading/VideolistCardSkeleton";
+import NextVideoCardSkeleton from "./Loading/NextVideoCardSkeleton";
 import SubscriberSkeleton from "./Loading/SubscriberSkeleton";
+import LoginForm from "./LoginForm";
+
+import NextVideosColumn from "./NextVideos/NextVideosColumn";
+import AllNextVideos from "./NextVideos/AllNextVideos";
+import UserNextVideos from "./NextVideos/UserNextVideos";
+import NextVideoCard from "./NextVideos/NextVideoCard";
+import PlaylistSkeleton from "./Loading/PlaylistSkeleton";
+import MyChannelSkeleton from "./Loading/MyChannelSkeleton";
+import VideoDetailSkeleton from "./Loading/VideoDetailSkeleton";
 
 export {
+  LoginForm,
+  VideoDetailSkeleton,
+  MyChannelSkeleton,
+  PlaylistForm,
+  PlaylistCard,
+  NextVideoCardSkeleton,
+  PlaylistSkeleton,
   PlaylistDropdown,
   CoverImageInput,
   AvatarInput,
@@ -69,6 +88,9 @@ export {
   LoadingSpinner,
   VideoPlayer,
   NextVideoCard,
+  NextVideosColumn,
+  AllNextVideos,
+  UserNextVideos,
   LoginPopup,
   Input,
   Logo,

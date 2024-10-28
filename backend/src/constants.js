@@ -5,6 +5,7 @@ export const coverImg_upOptions = {
   resource_type: "image",
 };
 
+
 export const avatar_upOptions = {
   folder: "shadowplay/avatar",
   resource_type: "image",

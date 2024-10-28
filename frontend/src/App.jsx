@@ -46,6 +46,7 @@ function App() {
         <Sidebar />
         <Outlet />
       </div>
+      
     </div>
   );
 }

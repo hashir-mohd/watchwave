@@ -6,7 +6,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173", // Local development
-  "https://youtube-clone-neon-mu-93.vercel.app", // Production frontend
+  "https://watchwave-ten.vercel.app", // Production frontend
 ];
 
 app.use(

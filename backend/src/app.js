@@ -4,13 +4,23 @@ import cors from "cors";
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  "https://youtube-clone-neon-mu-93.vercel.app", // Production frontend
+];
+
 app.use(
   cors({
-    origin:
-      process.env.MODE === "development"
-        ? process.env.CORS_ORIGIN_DEV
-        : process.env.CORS_ORIGIN_PRODUCTION,
-    credentials: true,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   })
 );
 

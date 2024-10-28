@@ -425,7 +425,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-  const theme = useSelector((state) => state.theme.theme); 
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -149,10 +149,10 @@ function Sidebar() {
             >
               <Link
                 to={item.path}
-                className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:focus:border-[#ae7aff] sm:hover:bg-[#ae7aff] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
+                className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:p-1.5 sm:focus:border-0 sm:hover:bg-[#ae7aff] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
                   theme === "dark"
-                    ? "border-[#121212] sm:focus:text-black sm:hover:text-black sm:focus:bg-[#ae7aff]"
-                    : "border-gray-200 sm:focus:text-[#ae7aff] sm:hover:text-white sm:focus:bg-gray-100"
+                    ? "sm:focus:text-black sm:hover:text-black sm:focus:bg-[#ae7aff]"
+                    : "sm:focus:text-[#ae7aff] sm:hover:text-white sm:focus:bg-gray-100"
                 }`}
               >
                 <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
@@ -172,10 +172,10 @@ function Sidebar() {
           <li className="hidden sm:block mt-auto">
             <Link
               to="/support"
-              className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:focus:border-[#ae7aff] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
+              className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:p-1.5 sm:focus:border-0 sm:hover:bg-[#ae7aff] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
                 theme === "dark"
-                  ? "border-[#121212] sm:focus:text-black sm:hover:bg-[#ae7aff] sm:focus:bg-[#ae7aff]"
-                  : "border-gray-200 sm:focus:text-[#ae7aff] sm:hover:bg-gray-100 sm:focus:bg-gray-100"
+                  ? "sm:focus:text-black sm:hover:text-black sm:focus:bg-[#ae7aff]"
+                  : "sm:focus:text-[#ae7aff] sm:hover:text-white sm:focus:bg-gray-100"
               }`}
             >
               <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
@@ -194,10 +194,10 @@ function Sidebar() {
           <li className="hidden sm:block">
             <Link
               to="/edit-profile/personal-info"
-              className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:focus:border-[#ae7aff] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
+              className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:p-1.5 sm:focus:border-0 sm:hover:bg-[#ae7aff] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
                 theme === "dark"
-                  ? "border-[#121212] sm:focus:text-black sm:hover:bg-[#ae7aff] sm:focus:bg-[#ae7aff]"
-                  : "border-gray-200 sm:focus:text-[#ae7aff] sm:hover:bg-gray-100 sm:focus:bg-gray-100"
+                  ? "sm:focus:text-black sm:hover:text-black sm:focus:bg-[#ae7aff]"
+                  : "sm:focus:text-[#ae7aff] sm:hover:text-white sm:focus:bg-gray-100"
               }`}
             >
               <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">

@@ -429,26 +429,27 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-  <QueryClientProvider client={queryClient}>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-    {import.meta.env.MODE === "development" && (
-      <ReactQueryDevtools initialIsOpen={false} />
-    )}
-    <Toaster
-      position="bottom-right"
-      reverseOrder={true}
-      toastOptions={{
-        error: {
-          style: { borderRadius: "0", color: "red" },
-        },
-        success: {
-          style: { borderRadius: "0", color: "green" },
-        },
-        duration: 2000,
-      }}
-    />
-  </QueryClientProvider>
+  // <QueryClientProvider client={queryClient}>
+  //   <Provider store={store}>
+  //     <RouterProvider router={router} />
+  //   </Provider>
+  //   {import.meta.env.MODE === "development" && (
+  //     <ReactQueryDevtools initialIsOpen={false} />
+  //   )}
+  //   <Toaster
+  //     position="bottom-right"
+  //     reverseOrder={true}
+  //     toastOptions={{
+  //       error: {
+  //         style: { borderRadius: "0", color: "red" },
+  //       },
+  //       success: {
+  //         style: { borderRadius: "0", color: "green" },
+  //       },
+  //       duration: 2000,
+  //     }}
+  //   />
+  // </QueryClientProvider>
+  <h1>hello</h1>
   // </React.StrictMode>
 );

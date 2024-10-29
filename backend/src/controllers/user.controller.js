@@ -40,7 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
   //return res
 
   const { fullName, email, username, password } = req.body;
-  console.log(req.body);
+  console.log(req.body,"in registeruser api");
   
 
   if (

@@ -84,9 +84,7 @@ export const registerUser = async (data) => {
   formData.append("email", data.email);
   formData.append("password", data.password);
   formData.append("fullName", data.fullName);
-  formData.forEach((value, key) => {
-    console.log(`${key}: ${value}`);
-  });
+  
   
   try {
     const { data } = await API.post("/users/register", formData);

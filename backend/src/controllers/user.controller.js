@@ -40,7 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
   //return res
 
   const { fullName, email, username, password } = req.body;
-  console.log(req.body,"in registeruser api");
+  console.log(req.body,"in registeruser api",req.files);
   
 
   if (
@@ -67,7 +67,7 @@ const registerUser = asyncHandler(async (req, res) => {
     coverImageLocalPath = req.files.coverImage[0].path;
   }
 
-  if (!avatarLocalPath) throw new ApiError(400, "Avatar is required");
+  if (!avatarLocalPath) throw new ApiError(400, "Avatar is required (in backend controller)");
 
   const avatar = await uploadOnCloudinary(avatarLocalPath, avatar_upOptions);
   const coverImage = await uploadOnCloudinary(

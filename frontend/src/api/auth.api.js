@@ -71,7 +71,7 @@ export const getCurrentUser = async () => {
 
 export const registerUser = async (data) => {
   const formData = new FormData();
-  console.log(data,"data in register user in frontent");
+  // console.log(data,"data in register user in frontent");
   if (!data.avatar) {
     toast.error("Avatar is required(in frontent api)");
     return;
@@ -84,7 +84,7 @@ export const registerUser = async (data) => {
   formData.append("email", data.email);
   formData.append("password", data.password);
   formData.append("fullName", data.fullName);
-  console.log(data,"formdata before passing it to backend");
+  console.log(formData,"formdata before passing it to backend");
   
   
   try {

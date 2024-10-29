@@ -88,12 +88,12 @@ export const registerUser = async (data) => {
   
   
   try {
-    const { data } = await API.post("/users/register", formData);
-    toast.success(data?.message);
-    return data?.data;
+    const { rdata } = await API.post("/users/register", data);
+    toast.success(rdata?.message);
+    return rdata?.data;
   } catch (error) {
-    toast.error(error?.response?.data?.error);
-    throw error?.response?.data?.error;
+    toast.error(error?.response?.rdata?.error);
+    throw error?.response?.rdata?.error;
   }
 };
 

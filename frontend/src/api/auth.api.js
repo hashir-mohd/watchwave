@@ -85,7 +85,9 @@ export const registerUser = async (data) => {
   formData.append("password", data.password);
   formData.append("fullName", data.fullName);
   console.log(formData,"formdata before passing it to backend");
-  
+  for (const [key, value] of formData.entries()) {
+    console.log(`${key}:`, value);
+  }
   
   try {
     const { data } = await API.post("/users/register", formData);

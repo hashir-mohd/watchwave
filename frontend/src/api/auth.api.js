@@ -84,7 +84,7 @@ export const registerUser = async (data) => {
   formData.append("email", data.email);
   formData.append("password", data.password);
   formData.append("fullName", data.fullName);
-  console.log(formData,"formdata before passing it to backend");
+  console.log(data,"formdata before passing it to backend");
   
   
   try {

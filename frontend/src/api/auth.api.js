@@ -71,7 +71,6 @@ export const getCurrentUser = async () => {
 
 export const registerUser = async (data) => {
   const formData = new FormData();
-  // console.log(data,"data in register user in frontent");
   if (!data.avatar) {
     toast.error("Avatar is required(in frontent api)");
     return;
@@ -84,10 +83,6 @@ export const registerUser = async (data) => {
   formData.append("email", data.email);
   formData.append("password", data.password);
   formData.append("fullName", data.fullName);
-  console.log(formData,"formdata before passing it to backend");
-  for (const [key, value] of formData.entries()) {
-    console.log(`${key}:`, value);
-  }
   
   try {
     const { data } = await API.post("/users/register", formData);
@@ -117,6 +112,7 @@ export const refreshAccessToken = async () => {
     console.log(data);
     return data?.data;
   } catch (error) {
+      console.log("error occureddddddddddddddddd", error);
     throw error?.response?.data?.error;
   }
 };

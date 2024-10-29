@@ -2,6 +2,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../features/themeSlice"; 
+import Button from "./Button";
 
 const ThemeToggle = () => {
   const dispatch = useDispatch();
@@ -12,16 +13,16 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button
+    <Button
       onClick={handleToggle}
-      className={` ${
+      className={`border-[#121212] rounded-xl flex items-center justify-center ${
         theme === "dark"
-          ? "bg-[#000000] text-white border-[#121212]"
-          : "bg-white text-black border-gray-200"
+          ? "bg-gray-500 hover:bg-slate-400 text-white"
+          : "bg-gray-200 hover:bg-gray-300 text-black"
       }`}
     >
-      Switch to {theme === "light" ? "Dark" : "Light"} Mode
-    </button>
+      <span>{theme === "light" ? "Dark" : "Light"}</span> <span> Mode</span>
+    </Button>
   );
 };
 

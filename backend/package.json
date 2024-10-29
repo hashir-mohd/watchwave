@@ -1,23 +1,17 @@
 {
   "name": "backend-project",
   "version": "1.0.0",
-  "description": "project build while learning backend",
+  "description": "backend of the watchwave project",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node -r dotenv/config --experimental-json-modules src/index.js",
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AryanBhati7/Backend-Project.git"
-  },
-  "author": "aryanbhati",
+  
+  "author": "mohdhashir",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/AryanBhati7/Backend-Project/issues"
-  },
-  "homepage": "https://github.com/AryanBhati7/Backend-Project#readme",
+  
   "devDependencies": {
     "nodemon": "^3.1.2",
     "prettier": "^3.3.0"

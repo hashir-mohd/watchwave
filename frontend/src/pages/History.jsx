@@ -3,9 +3,12 @@ import { useClearWatchHistory, useWatchHistory } from "../hooks/user.hook";
 import { VideolistCard, VideolistCardSkeleton } from "../components/index";
 import { Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
+import { useSelector } from "react-redux"; // Import useSelector for theme
+
 function History() {
   const { data: watchHistory, isLoading } = useWatchHistory();
   const [searchTerm, setSearchTerm] = useState("");
+  const theme = useSelector((state) => state.theme.theme); // Access current theme
 
   const filteredHistory = watchHistory?.filter((video) =>
     video.video.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -30,8 +33,16 @@ function History() {
     );
 
   return (
-    <div className="flex flex-col sm:flex-row w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
-      <section className="w-3/4 pr-4">
+    <div
+      className={`flex flex-col sm:flex-row w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0 ${
+        theme === "dark" ? "bg-[#121212]" : "bg-white"
+      }`}
+    >
+      <section
+        className={`w-3/4 pr-4 ${
+          theme === "dark" ? "text-white" : "text-black"
+        }`}
+      >
         <h1 className="text-3xl font-bold my-2 ml-4">History</h1>
 
         <div className="flex flex-col gap-4 p-4">
@@ -44,16 +55,28 @@ function History() {
         </div>
       </section>
 
-      <aside className="w-full sm:w-1/4 p-4 ">
+      <aside
+        className={`w-full sm:w-1/4 p-4 ${
+          theme === "dark" ? "text-white" : "text-black"
+        }`}
+      >
         <div className="relative mb-4">
           <input
             type="text"
             placeholder="Search history"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-gray-800 text-white border border-purple-500 rounded-md py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-purple-600"
+            className={`w-full border rounded-md py-2 px-4 pl-10 focus:outline-none focus:ring-2 ${
+              theme === "dark"
+                ? "bg-[#121212] text-white border-purple-500 focus:ring-purple-600"
+                : "bg-white text-black border-gray-300 focus:ring-purple-500"
+            }`}
           />
-          <BiSearch className="absolute h-6 w-6 left-3 top-2.5 text-purple-400" />
+          <BiSearch
+            className={`absolute h-6 w-6 left-3 top-2.5 ${
+              theme === "dark" ? "text-purple-400" : "text-gray-600"
+            }`}
+          />
         </div>
 
         <button

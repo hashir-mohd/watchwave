@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { SpButton, ProgressBar, VideoForm } from "../index.js";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useEditVideo } from "../../hooks/video.hook.js";
@@ -9,6 +8,7 @@ import { setVideoForEdit } from "../../features/videoSlice.js";
 
 function EditVideo() {
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme); // Select the theme from Redux
   const video = useSelector((state) => state.video.videoForEdit);
   const user = useSelector((state) => state.auth.user);
   const [resetStatus, setResetStatus] = useState(false);
@@ -48,11 +48,13 @@ function EditVideo() {
 
   return (
     <div
-      className="
-       mt-16 ml-0 overflow-x-hidden  sm:ml-8 absolute  inset-0 z-10 bg-black/50 px-4 w-full  pb-[80px] pt-4 sm:px-14 sm:py-8"
+      className={`mt-16 ml-0 overflow-x-hidden sm:ml-8 absolute inset-0 z-10 bg-black/50 px-4 w-full pb-[80px] pt-4 sm:px-14 sm:py-8`}
     >
-      {" "}
-      <div className="h-full overflow-auto border bg-[#121212] ">
+      <div
+        className={`h-full overflow-auto border ${
+          theme === "dark" ? "bg-[#121212] text-white" : "bg-white text-black"
+        }`}
+      >
         <div className="flex items-center justify-between border-b p-4">
           <h2 className="text-xl font-semibold">
             {isPending && <span>Uploading your Video...</span>}

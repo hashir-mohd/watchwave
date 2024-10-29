@@ -37,20 +37,21 @@ function Videocard({ video }) {
             className={`font-semibold ${
               theme === "dark" ? "text-white" : "text-black"
             }`}
+            style={{ lineHeight: "1.2" }} // Adjusted line height
           >
             {video?.title}
           </h6>
           <span
-            className={`flex text-sm ${
+            className={`flex text-xs ${
               theme === "dark" ? "text-gray-200" : "text-gray-600"
-            }`}
+            }`} // Reduced font size to 'text-xs'
           >
             {video?.ownerDetails?.username}
           </span>
           <p
-            className={`text-sm ${
+            className={`text-xs ${
               theme === "dark" ? "text-gray-200" : "text-gray-600"
-            }`}
+            }`} // Reduced font size to 'text-xs'
           >
             {video?.views} Views · {timeAgo(video?.createdAt)}
           </p>

@@ -5,6 +5,7 @@ import defaultCoverImg from "../assets/default-cover-photo.jpg";
 import { AvatarInput, CoverImageInput } from "../components";
 
 function EditProfile() {
+  const theme = useSelector((state) => state.theme.theme); // Select the theme from Redux
   const channelInfo = useSelector((state) => state.auth.user);
   const editProfileItems = [
     {
@@ -22,7 +23,7 @@ function EditProfile() {
   ];
 
   return (
-    <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+    <section className={`w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0`}>
       <div className="relative min-h-[150px] w-full pt-[16.28%]">
         <div className="absolute inset-0 overflow-hidden">
           <CoverImageInput
@@ -30,13 +31,17 @@ function EditProfile() {
           />
         </div>
       </div>
-      <div className="px-4 pb-4">
+      <div
+        className={`px-4 pb-4 ${
+          theme === "dark" ? "bg-[#121212] text-white" : "bg-white text-black"
+        }`}
+      >
         <div className="flex flex-wrap gap-4 pb-4 pt-6">
           <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 rounded-full border-2">
             <AvatarInput avatar={channelInfo?.avatar?.url} />
           </span>
           <div className="mr-auto inline-block">
-            <h1 className="font-bolg text-xl">{channelInfo?.fullName}</h1>
+            <h1 className="font-bold text-xl">{channelInfo?.fullName}</h1>
             <p className="text-sm text-gray-400">@{channelInfo?.username}</p>
           </div>
           <div className="inline-block">
@@ -50,7 +55,11 @@ function EditProfile() {
             </div>
           </div>
         </div>
-        <ul className="no-scrollbar sticky top-[66px] z-[2] flex flex-row gap-x-2 overflow-auto border-b-2 border-gray-400 bg-[#121212] py-2 sm:top-[82px]">
+        <ul
+          className={`no-scrollbar sticky top-[66px] z-[2] flex flex-row gap-x-2 overflow-auto border-b-2 ${
+            theme === "dark" ? "border-gray-600" : "border-gray-400"
+          } py-2 sm:top-[82px]`}
+        >
           {editProfileItems.map((item, index) => (
             <li key={index} className="w-full">
               <NavLink
@@ -59,7 +68,9 @@ function EditProfile() {
                   ({ isActive }) =>
                     isActive
                       ? "w-full border-b-2 border-[#ae7aff] bg-white px-3 py-1.5 text-[#ae7aff]" // Active link color
-                      : "w-full border-b-2 border-transparent px-3 py-1.5 text-gray-400" // Inactive link color
+                      : `w-full border-b-2 border-transparent px-3 py-1.5 ${
+                          theme === "dark" ? "text-gray-400" : "text-gray-600"
+                        }` // Inactive link color
                 }
               >
                 {item.name}

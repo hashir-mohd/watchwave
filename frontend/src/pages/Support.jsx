@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import {
   FaTwitter,
   FaLinkedin,
@@ -8,28 +9,32 @@ import {
 } from "react-icons/fa";
 
 const Support = () => {
+  const theme = useSelector((state) => state.theme.theme); // Select the theme from Redux
+
   const personalInfo = {
-    name: "Aryan Bhati",
-    email: "codiearyan07@gmail.com",
+    name: "Mohd Hashir",
+    email: "esport.py.m45@gmail.com",
   };
+
   const links = [
-    { name: "Twitter", icon: FaTwitter, url: "https://x.com/CodieAryan" },
-    {
-      name: "LinkedIn",
-      icon: FaLinkedin,
-      url: "https://www.linkedin.com/in/aryan-bhati/",
-    },
-    { name: "GitHub", icon: FaGithub, url: "https://github.com/AryanBhati7" },
-    {
-      name: "Discord",
-      icon: FaDiscord,
-      url: "https://discord.com/users/840957818323468318",
-    },
+    { name: "Twitter", icon: FaTwitter, url: "#" },
+    { name: "LinkedIn", icon: FaLinkedin, url: "#" },
+    { name: "GitHub", icon: FaGithub, url: "#" },
+    { name: "Discord", icon: FaDiscord, url: "#" },
   ];
 
   return (
-    <section className="w-full  flex justify-center items-center">
-      <div className="bg-gray-900 text-white p-8 rounded-lg shadow-lg max-w-lg mx-auto">
+    <section className={`w-full flex justify-center items-center`}>
+      <div
+        className={`
+          p-8 rounded-lg shadow-lg max-w-lg mx-auto
+          ${
+            theme === "dark"
+              ? "bg-[#000000] text-white border-[#121212]"
+              : "bg-white text-black border-gray-200"
+          }
+        `}
+      >
         <div className="flex flex-col items-center mb-6">
           <div className="bg-purple-600 p-4 rounded-full mb-4">
             <FaQuestionCircle className="text-4xl" />
@@ -50,7 +55,9 @@ const Support = () => {
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center p-3 bg-gray-800 rounded-lg hover:bg-purple-700 transition duration-300"
+              className={`flex items-center p-3 rounded-lg hover:bg-purple-700 transition duration-300 
+                ${theme === "dark" ? "bg-gray-800" : "bg-gray-200"}
+              `}
             >
               <link.icon className="text-purple-400 mr-3 text-xl" />
               <span className="text-lg">{link.name}</span>

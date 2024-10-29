@@ -5,11 +5,11 @@ function Logo({ className, inline = false, mobile = false }) {
     <div
       className={`font-bold text-xl flex items-center justify-center w-full ${className} text-purple-500 italic`}
     >
-      {/* <img
-        src="/shadowplay-icon.jpeg"
+      <img
+        src="/logo.jpg"
         alt="logo"
         className="w-10 h-10 inline-block mr-2"
-      /> */}
+      />
 
       <div
         className={`flex ${inline ? "flex-row" : " flex-col"} ${

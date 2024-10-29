@@ -34,6 +34,8 @@ export const useCurrentUser = () => {
 };
 
 export const useRegisterUser = () => {
+  
+  
   return useMutation({
     mutationFn: (user) => registerUser(user),
   });

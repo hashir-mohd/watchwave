@@ -40,6 +40,8 @@ function Signup() {
   const createAccount = async (data) => {
     data.avatar = profilePic;
     data.coverImage = coverPic;
+    console.log(data);
+    
     const registeredUser = await registerUser(data);
     if (registeredUser) {
       const loggedInUser = await loginUser({
@@ -151,6 +153,10 @@ function Signup() {
               required: true,
             })}
           />
+          {errors.username && (
+            <p className="error-message">{errors.username.message}</p>
+          )}
+
           <Input
             label={"Email*"}
             type="text"
@@ -160,6 +166,9 @@ function Signup() {
               required: true,
             })}
           />
+          {errors.email && (
+            <p className="error-message">{errors.email.message}</p>
+          )}
 
           <Input
             label={"Passsword*"}
@@ -171,6 +180,8 @@ function Signup() {
             })}
             className="mb-4"
           />
+                      {errors.password && <p className="error-message">{errors.password.message}</p>}
+
           <SpButton type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Creating an Account..." : "Sign Up"}
           </SpButton>

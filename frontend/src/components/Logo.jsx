@@ -6,7 +6,7 @@ function Logo({ className, inline = false, mobile = false }) {
       className={`font-bold text-xl flex items-center justify-center w-full ${className} text-purple-500 italic`}
     >
       <img
-        src="/logo.jpg"
+        src="/icon.jpg"
         alt="logo"
         className="w-10 h-10 inline-block mr-2"
       />

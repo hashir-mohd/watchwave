@@ -89,7 +89,6 @@ export const registerUser = async (data) => {
     toast.success(data?.message);
     return data?.data;
   } catch (error) {
-    console.log("adasdassssssssssssssssssssssssssssss");
     toast.error(error?.response?.data?.error);
     throw error?.response?.data?.error;
   }

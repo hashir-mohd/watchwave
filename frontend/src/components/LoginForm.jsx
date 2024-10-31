@@ -36,7 +36,7 @@ function LoginForm({ onLogin }) {
   return (
     <form onSubmit={handleSubmit(loginUser)} className="flex flex-col">
       <Input
-        label={"Username/Email*"}
+        label={"Username/Email"}
         type="text"
         placeholder="johnwick7"
         id={"username"}
@@ -50,7 +50,7 @@ function LoginForm({ onLogin }) {
         </span>
       )}
       <Input
-        label={"Password*"}
+        label={"Password"}
         type="password"
         placeholder="*******"
         id={"password"}

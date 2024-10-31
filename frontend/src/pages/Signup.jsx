@@ -15,16 +15,21 @@ function Signup() {
     email: z.string().email(),
     username: z
       .string()
-      .min(4)
+      .min(4, { message: "Username must be at least 4 characters long" })
       .refine((value) => !value.includes(" "), {
         message: "Username must not contain spaces",
       })
       .refine((value) => value === value.toLowerCase(), {
         message: "Username must be all lowercase",
       }),
-    fullName: z.string().min(4),
-    password: z.string().min(6),
+    fullName: z
+      .string()
+      .min(5, { message: "Full name must be at least 5 characters long" }),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters long" }),
   });
+
 
   const {
     register,
@@ -41,7 +46,7 @@ function Signup() {
     data.avatar = profilePic;
     data.coverImage = coverPic;
     console.log(data);
-    
+
     const registeredUser = await registerUser(data);
     if (registeredUser) {
       const loggedInUser = await loginUser({
@@ -136,7 +141,7 @@ function Signup() {
           </div>
 
           <Input
-            label={"Full Name*"}
+            label={"Full Name"}
             type="text"
             placeholder="John Wick"
             id={"fullName"}
@@ -144,8 +149,13 @@ function Signup() {
               required: true,
             })}
           />
+          {errors.fullName && (
+            <p className="error-message text-red-700">
+              {errors.fullName.message}
+            </p>
+          )}
           <Input
-            label={"Username*"}
+            label={"Username"}
             type="text"
             placeholder="johnwick7"
             id={"username"}
@@ -154,11 +164,13 @@ function Signup() {
             })}
           />
           {errors.username && (
-            <p className="error-message">{errors.username.message}</p>
+            <p className="error-message text-red-700">
+              {errors.username.message}
+            </p>
           )}
 
           <Input
-            label={"Email*"}
+            label={"Email"}
             type="text"
             placeholder="johnwick@example.com"
             id={"email"}
@@ -167,20 +179,24 @@ function Signup() {
             })}
           />
           {errors.email && (
-            <p className="error-message">{errors.email.message}</p>
+            <p className="error-message text-red-700">{errors.email.message}</p>
           )}
 
           <Input
-            label={"Passsword*"}
+            label={"Passsword"}
             type="password"
             placeholder="********"
             id={"password"}
             {...register("password", {
               required: true,
             })}
-            className="mb-4"
+            
           />
-                      {errors.password && <p className="error-message">{errors.password.message}</p>}
+          {errors.password && (
+            <p className="error-message text-red-700 mb-4">
+              {errors.password.message}
+            </p>
+          )}
 
           <SpButton type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Creating an Account..." : "Sign Up"}

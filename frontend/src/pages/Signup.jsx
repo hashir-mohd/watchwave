@@ -15,7 +15,7 @@ function Signup() {
     email: z.string().email(),
     username: z
       .string()
-      .min(4, { message: "Username must be at least 4 characters long" })
+      .min(4,"Username must be at least 4 characters long" )
       .refine((value) => !value.includes(" "), {
         message: "Username must not contain spaces",
       })
@@ -24,10 +24,10 @@ function Signup() {
       }),
     fullName: z
       .string()
-      .min(5, { message: "Full name must be at least 5 characters long" }),
+      .min(5,"Full name must be at least 5 characters long" ),
     password: z
       .string()
-      .min(6, { message: "Password must be at least 6 characters long" }),
+      .min(6, "Password must be at least 6 characters long" ),
   });
 
 

@@ -17,8 +17,8 @@ COPY . .
 # Build the Vite app for production
 RUN npm run build
 
-# Use the official Nginx image to serve the built files
-FROM nginx:alpine
+# Use the official Nginx image to serve the built files (non-Alpine version)
+FROM nginx
 
 # Copy the built files from the previous stage to the Nginx HTML folder
 COPY --from=build /app/dist /usr/share/nginx/html

@@ -5,8 +5,8 @@ import cors from "cors";
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173", // Local development
-  "https://watchwave-ten.vercel.app", // Production frontend
+  process.env.CORS_ORIGIN_DEV, 
+  process.env.CORS_ORIGIN_PRODUCTION,
 ];
 
 app.use(

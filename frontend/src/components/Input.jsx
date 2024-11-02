@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux"; // Make sure to import useSelector
 
 const Input = React.forwardRef(
   (
@@ -13,11 +14,15 @@ const Input = React.forwardRef(
     },
     ref
   ) => {
+    const theme = useSelector((state) => state.theme.theme); // Get theme from Redux store
+
     return (
       <>
         {label && (
           <label
-            className={`mb-1 inline-block text-gray-300${labelClasses}`}
+            className={`mb-1 inline-block ${
+              theme === "dark" ? "text-gray-300" : "text-gray-600"
+            } ${labelClasses}`}
             htmlFor={id}
           >
             {label}
@@ -27,7 +32,11 @@ const Input = React.forwardRef(
         <input
           ref={ref}
           type={type}
-          className={` rounded-lg border bg-transparent px-3 py-2 ${className}`}
+          className={`rounded-lg border bg-transparent px-3 py-2 ${
+            theme === "dark"
+              ? "bg-[#121212] text-gray-200"
+              : "bg-white text-black"
+          } ${className}`}
           required={required}
           {...props}
           id={id}

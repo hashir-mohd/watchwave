@@ -100,9 +100,7 @@ function CommentBox({ videoId }) {
               type="text"
               placeholder="Add a Comment"
               id="comment"
-              className={`w-full rounded-lg border bg-transparent px-2 py-1 placeholder-white ${
-                theme === "dark" ? "text-gray-200" : "text-gray-800"
-              }`}
+              className={`w-full rounded-lg border bg-transparent px-2 py-1 `}
               {...register("comment", { required: true })}
             />
             <SpButton type="submit">Send</SpButton>

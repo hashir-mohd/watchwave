@@ -31,11 +31,15 @@ const loginTo = {
 
 function AuthLayout({ auth, children, pageName }) {
   const authStatus = useSelector((state) => state.auth.authStatus);
+  const theme = useSelector((state) => state.theme.theme);
   const [showLoginPopup, setShowLoginPopup] = React.useState(false);
 
   const handleCloseLoginPopup = () => {
     setShowLoginPopup(false);
   };
+
+  const themeClasses =
+    theme === "dark" ? "bg-[#121212] text-gray-200" : "bg-white text-gray-600";
 
   if (auth && authStatus) {
     return children;
@@ -52,7 +56,9 @@ function AuthLayout({ auth, children, pageName }) {
     }
     const GuestComponent = guestComponents[pageName];
     return GuestComponent ? (
-      <div className="relative overflow-hidden  w-full justify-center flex bg-black">
+      <div
+        className={`relative overflow-hidden w-full justify-center flex ${themeClasses}`}
+      >
         <GuestComponent />
         <div className="absolute left-1/2 bottom-[30%] transform -translate-x-1/2 ">
           <button

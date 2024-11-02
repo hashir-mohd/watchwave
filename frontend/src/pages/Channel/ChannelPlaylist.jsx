@@ -23,7 +23,7 @@ function ChannelPlaylist() {
         <div className="flex justify-center p-4">
           <div className="w-full max-w-sm text-center">
             <p className="mb-3 w-full">
-              <span className="inline-flex rounded-full bg-[#E4D3FF] p-2 text-[#AE7AFF]">
+              <span className="inline-flex rounded-full bg-[#E4D3FF] p-2 text-[#00bcd4]">
                 <span className="inline-block w-6">
                   <svg
                     style={{ width: "100%" }}

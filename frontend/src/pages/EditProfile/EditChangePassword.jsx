@@ -62,7 +62,10 @@ function EditChangePassword() {
         </p>
       </div>
       <div className="w-full sm:w-1/2 lg:w-2/3">
-        <form className="rounded-lg border" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="rounded-lg border-collapse "
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="flex flex-wrap gap-y-4 p-4">
             <div className="w-full">
               <label className="mb-1 inline-block" htmlFor="old-pwd">
@@ -107,7 +110,7 @@ function EditChangePassword() {
               />
             </div>
           </div>
-          <hr className="border border-gray-300" />
+          {/* <hr className="border border-gray-300" /> */}
           <div className="flex items-center justify-end gap-4 p-4">
             <button
               type="button"
@@ -116,7 +119,7 @@ function EditChangePassword() {
             >
               Reset
             </button>
-            <button className="inline-block bg-[#ae7aff] px-3 py-1.5 text-black">
+            <button className="inline-block bg-[#00bcd4] px-3 py-1.5 text-black">
               Update Password
             </button>
           </div>

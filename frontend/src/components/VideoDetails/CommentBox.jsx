@@ -14,6 +14,7 @@ const schema = z.object({
 
 function CommentBox({ videoId }) {
   const authStatus = useSelector((state) => state.auth.authStatus);
+  const theme = useSelector((state) => state.theme.theme); // Get theme from Redux
   const [isOpen, setIsOpen] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const {
@@ -57,18 +58,32 @@ function CommentBox({ videoId }) {
   return (
     <div className="w-full">
       <button
-        className="w-full rounded-lg border p-4 text-left duration-200 hover:bg-white/5 focus:bg-white/5 sm:hidden"
+        className={`w-full rounded-lg border p-4 text-left duration-200 hover:bg-white/5 focus:bg-white/5 ${
+          theme === "dark"
+            ? "text-gray-200 border-gray-700"
+            : "text-gray-600 border-gray-300"
+        } sm:hidden`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <h6 className="font-semibold">{totalComments} Comments</h6>
       </button>
       <div
-        className={`fixed inset-x-0 bottom-0 z-[60] h-[calc(100%-69px)] overflow-auto rounded-t-lg border bg-[#121212] p-4 transition-transform duration-300 sm:static sm:h-auto sm:max-h-[500px] sm:transform-none lg:max-h-none ${
+        className={`fixed inset-x-0 bottom-0 z-[60] h-[calc(100%-69px)] overflow-auto rounded-t-lg border ${
+          theme === "dark"
+            ? "bg-[#121212] border-gray-700"
+            : "bg-white border-gray-300"
+        } p-4 transition-transform duration-300 sm:static sm:h-auto sm:max-h-[500px] sm:transform-none lg:max-h-none ${
           isOpen ? "translate-y-0" : "translate-y-full sm:translate-y-0"
         }`}
       >
         <div className="flex justify-between items-center mb-4">
-          <h6 className="font-semibold">{totalComments} Comments</h6>
+          <h6
+            className={`font-semibold ${
+              theme === "dark" ? "text-gray-200" : "text-gray-800"
+            }`}
+          >
+            {totalComments} Comments
+          </h6>
           <button
             className="sm:hidden p-2 rounded-full hover:bg-white/10"
             onClick={() => setIsOpen(false)}
@@ -85,13 +100,19 @@ function CommentBox({ videoId }) {
               type="text"
               placeholder="Add a Comment"
               id="comment"
-              className="w-full rounded-lg border bg-transparent px-2 py-1 placeholder-white"
+              className={`w-full rounded-lg border bg-transparent px-2 py-1 placeholder-white ${
+                theme === "dark" ? "text-gray-200" : "text-gray-800"
+              }`}
               {...register("comment", { required: true })}
             />
             <SpButton type="submit">Send</SpButton>
           </form>
         </div>
-        <hr className="my-4 border-white" />
+        <hr
+          className={`my-4 ${
+            theme === "dark" ? "border-gray-700" : "border-gray-300"
+          }`}
+        />
         <div>
           {isFetched &&
             comments?.pages.map((page, index) => (

@@ -83,7 +83,7 @@ function MyStudio() {
         <div className="block">
           <button
             onClick={handleUploadVideoClick}
-            className="inline-flex border rounded-xl items-center gap-x-2 bg-[#ae7aff] px-3 py-2 font-semibold text-black"
+            className="inline-flex border-collapse rounded-xl items-center gap-x-2 bg-[#00bcd4] px-3 py-2 font-semibold text-black"
           >
             <CiSquarePlus className="text-black font-bold text-2xl" />
             Upload video
@@ -105,7 +105,7 @@ function MyStudio() {
               }`}
             >
               <div className="mb-4 block">
-                <span className="h-9 w-9 flex justify-center items-center rounded-full bg-[#E4D3FF] p-1 text-[#ae7aff]">
+                <span className="h-9 w-9 flex justify-center items-center rounded-full bg-[#E4D3FF] p-1 text-[#00bcd4]">
                   {item.icon}
                 </span>
               </div>

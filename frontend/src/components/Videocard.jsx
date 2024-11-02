@@ -7,7 +7,7 @@ function Videocard({ video }) {
   const theme = useSelector((state) => state.theme.theme);
 
   return (
-    <div className="w-full">
+    <div className="w-full font-roboto ">
       <div className="relative mb-2 w-full pt-[56%]">
         <div className="absolute inset-0">
           <img
@@ -34,7 +34,7 @@ function Videocard({ video }) {
         </div>
         <div className="w-full">
           <h6
-            className={`font-semibold ${
+            className={` ${
               theme === "dark" ? "text-white" : "text-black"
             }`}
             style={{ lineHeight: "1.2" }} // Adjusted line height

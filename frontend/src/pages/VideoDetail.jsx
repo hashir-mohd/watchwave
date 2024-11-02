@@ -24,6 +24,9 @@ function VideoDetail() {
   const viewUpdated = useRef(false);
   const scrollRef = useRef(null);
 
+  // Get theme from Redux
+  const theme = useSelector((state) => state.theme.theme);
+
   const {
     data: video,
     isError,
@@ -61,7 +64,13 @@ function VideoDetail() {
 
   if (isFetching && !isRefetching) {
     return (
-      <section className="w-full pb-[70px] sm:ml-[70px]  sm:pb-0">
+      <section
+        className={`w-full pb-[70px] sm:ml-[70px] sm:pb-0 ${
+          theme === "dark"
+            ? "bg-[#121212] text-gray-200"
+            : "bg-white text-gray-600"
+        }`}
+      >
         <div className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
           <div className="col-span-12 w-full">
             <div className="relative mb-4 w-full pt-[56%]">
@@ -80,7 +89,13 @@ function VideoDetail() {
   return (
     <>
       <div ref={scrollRef}></div>
-      <section className="w-full pb-[70px] sm:ml-[70px]  sm:pb-0">
+      <section
+        className={`w-full pb-[70px] sm:ml-[70px] sm:pb-0 ${
+          theme === "dark"
+            ? "bg-[#121212] text-gray-200"
+            : "bg-white text-gray-600"
+        }`}
+      >
         <div className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
           <div className="col-span-12 w-full">
             <div className="relative mb-4 w-full pt-[56%]">
@@ -98,13 +113,27 @@ function VideoDetail() {
               </div>
             </div>
             <div
-              className="group mb-4 w-full rounded-lg border p-4 duration-200 hover:bg-white/5 focus:bg-white/5"
+              className={`group mb-4 w-full rounded-lg border p-4 duration-200 hover:bg-white/5 focus:bg-white/5 ${
+                theme === "dark"
+                  ? "bg-[#1E1E1E] border-gray-700"
+                  : "bg-white border-gray-300"
+              }`}
               tabIndex="0"
             >
               <div className="flex flex-wrap gap-y-2">
                 <div className="w-full md:w-1/2 lg:w-full xl:w-1/2">
-                  <h1 className="text-lg font-bold">{video && video.title}</h1>
-                  <p className="flex text-sm text-gray-200">
+                  <h1
+                    className={`text-lg font-bold ${
+                      theme === "dark" ? "text-gray-200" : "text-gray-800"
+                    }`}
+                  >
+                    {video && video.title}
+                  </h1>
+                  <p
+                    className={`flex text-sm ${
+                      theme === "dark" ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
                     {video && video.views} Views ·{" "}
                     {video && timeAgo(video.createdAt)}
                   </p>
@@ -134,11 +163,18 @@ function VideoDetail() {
                       />
                     </div>
                     <div className="block">
-                      <p className="text-gray-200">
+                      <p
+                        className={`text-sm ${
+                          theme === "dark" ? "text-gray-200" : "text-gray-800"
+                        }`}
+                      >
                         {video && video?.owner?.username}
                       </p>
-
-                      <p className="text-sm text-gray-400">
+                      <p
+                        className={`text-sm ${
+                          theme === "dark" ? "text-gray-400" : "text-gray-600"
+                        }`}
+                      >
                         {video && video?.owner?.subscribersCount} Subscribers
                       </p>
                     </div>
@@ -152,9 +188,19 @@ function VideoDetail() {
                   />
                 )}
               </div>
-              <hr className="my-4 border-white" />
+              <hr
+                className={`${
+                  theme === "dark" ? "border-gray-700" : "border-gray-300"
+                } my-4`}
+              />
               <div className="h-5 overflow-hidden group-focus:h-auto">
-                <p className="text-sm">{video && video.description}</p>
+                <p
+                  className={`text-sm ${
+                    theme === "dark" ? "text-gray-200" : "text-gray-800"
+                  }`}
+                >
+                  {video && video.description}
+                </p>
               </div>
             </div>
 

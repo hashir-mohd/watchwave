@@ -67,7 +67,7 @@ const Dropzone = forwardRef(({ type, setFile, file, isPending }, ref) => {
 
           <button
             type="button"
-            className="px-6 py-3 w-4/12 border-none bg-[#ae7aff] text-black hover:bg-[#d6beff]"
+            className="px-6 py-3 w-4/12 border-none bg-[#00bcd4] text-black hover:bg-[#d6beff]"
             onClick={() => setFile(null)}
             disabled={isPending}
           >
@@ -84,7 +84,7 @@ const Dropzone = forwardRef(({ type, setFile, file, isPending }, ref) => {
       className="w-full h-full border-2 border-dashed px-4 py-12 text-center"
     >
       <input ref={ref} className="sr-only" {...getInputProps()} />
-      <span className="mb-4 inline-block w-24 rounded-full bg-[#E4D3FF] p-4 text-[#AE7AFF]">
+      <span className="mb-4 inline-block w-24 rounded-full bg-[#E4D3FF] p-4 text-[#00bcd4]">
         <AiOutlineCloudUpload className="w-full h-full" />
       </span>
       <h6 className="mb-2 font-semibold">
@@ -98,7 +98,7 @@ const Dropzone = forwardRef(({ type, setFile, file, isPending }, ref) => {
       )}
       <label
         onClick={open}
-        className="group/btn mt-4 inline-flex w-auto cursor-pointer items-center gap-x-2 bg-[#ae7aff] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e]"
+        className="group/btn mt-4 inline-flex w-auto cursor-pointer items-center gap-x-2 bg-[#00bcd4] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e]"
       >
         Select Files
       </label>

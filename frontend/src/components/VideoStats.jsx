@@ -53,13 +53,13 @@ function VideoStats() {
         <input
           className={`${
             theme === "dark" ? "bg-[#121212] text-white" : "bg-white text-black"
-          } w-full peer border-2 border-gray-300 focus:border-[#ae7aff] bg-transparent py-2 pl-10 pr-4 rounded-md placeholder-gray-400 outline-none transition-all duration-300 focus:shadow-lg`}
+          } w-full peer border-2 border-gray-300 focus:border-[#00bcd4] bg-transparent py-2 pl-10 pr-4 rounded-md placeholder-gray-400 outline-none transition-all duration-300 focus:shadow-lg`}
           placeholder="Search videos"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <MdSearch
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 peer-focus:text-[#ae7aff]"
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 peer-focus:text-[#00bcd4]"
           size={20}
         />
       </div>
@@ -139,7 +139,7 @@ function VideoStats() {
                           checked={video?.isPublished}
                           onChange={() => togglePublishStatus(video._id)}
                         />
-                        <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7"></span>
+                        <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#00bcd4] peer-checked:after:left-7"></span>
                       </label>
                     </div>
                   </td>
@@ -211,12 +211,12 @@ function VideoStats() {
                     <div className="flex gap-4">
                       <button
                         onClick={() => handleEdit(video)}
-                        className="h-5 w-5 hover:text-[#ae7aff]"
+                        className="h-5 w-5 hover:text-[#00bcd4]"
                       >
                         <MdModeEditOutline className="w-6 h-6" />
                       </button>
                       <button
-                        className="h-5 w-5 hover:text-[#ae7aff]"
+                        className="h-5 w-5 hover:text-[#00bcd4]"
                         onClick={() => handleDelete(video._id)}
                       >
                         <MdDelete className="w-6 h-6" />
@@ -266,12 +266,12 @@ function VideoStats() {
                   <div className="flex justify-between">
                     <button
                       onClick={() => handleEdit(video)}
-                      className="text-[#ae7aff]"
+                      className="text-[#00bcd4]"
                     >
                       Edit
                     </button>
                     <button
-                      className="text-[#ae7aff]"
+                      className="text-[#00bcd4]"
                       onClick={() => handleDelete(video._id)}
                     >
                       Delete

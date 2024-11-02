@@ -67,7 +67,10 @@ function EditChannelInfo() {
         <p className="text-gray-300">Update your Channel details here.</p>
       </div>
       <div className="w-full sm:w-1/2 lg:w-2/3">
-        <form onSubmit={handleSubmit(onSubmit)} className="rounded-lg border">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="rounded-lg border-collapse "
+        >
           <div className="flex flex-wrap gap-y-4 p-4">
             <div className="w-full">
               <label className="mb-1 inline-block" htmlFor="username">
@@ -75,7 +78,7 @@ function EditChannelInfo() {
               </label>
               <div className="flex rounded-lg border">
                 <p className="flex shrink-0 items-center border-r border-white px-3 align-middle">
-                  shadowplay.vercel.app/
+                  watchwave.imhashir.me/
                 </p>
                 <input
                   type="text"
@@ -112,7 +115,7 @@ function EditChannelInfo() {
               )}
             </div>
           </div>
-          <hr className="border border-gray-300" />
+          {/* <hr className="border border-gray-300" /> */}
           <div className="flex items-center justify-end gap-4 p-4">
             <button
               type="button"
@@ -125,7 +128,7 @@ function EditChannelInfo() {
             <button
               type="submit"
               disabled={isPending}
-              className="inline-block bg-[#ae7aff] px-3 py-1.5 text-black"
+              className="inline-block bg-[#00bcd4] px-3 py-1.5 text-black"
             >
               Save changes
             </button>

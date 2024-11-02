@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 function Tweet({ tweet, isOwner }) {
   const authStatus = useSelector((state) => state.auth.authStatus);
+  const theme = useSelector((state) => state.theme.theme); // Get the current theme
   const [isEditing, setIsEditing] = useState(false);
   const [editedTweet, setEditedTweet] = useState(tweet?.content);
 
@@ -32,12 +33,15 @@ function Tweet({ tweet, isOwner }) {
     if (res) {
       setIsEditing(false);
     }
-    console.log("edit");
   };
 
   return (
-    <div className="py-2 flex h-3/12 justify-between border-b border-gray-700">
-      <div className="flex gap-3  py-4 last:border-b-transparent">
+    <div
+      className={`py-2 flex h-3/12 justify-between border-b border-gray-700 ${
+        theme === "dark" ? "bg-[#121212]" : "bg-white"
+      }`}
+    >
+      <div className="flex gap-3 py-4 last:border-b-transparent">
         <div className="h-14 w-14 shrink-0">
           <img
             src={tweet?.ownerDetails?.avatar?.url}
@@ -46,11 +50,14 @@ function Tweet({ tweet, isOwner }) {
           />
         </div>
         <div className="w-full">
-          <h4 className="mb-1 flex items-center gap-x-2">
+          <h4
+            className={`mb-1 flex items-center gap-x-2 ${
+              theme === "dark" ? "text-gray-200" : "text-gray-800"
+            }`}
+          >
             <span className="font-semibold">
               {tweet?.ownerDetails?.username}
             </span>
-             
             <span className="inline-block text-sm text-gray-400">
               {timeAgo(tweet?.createdAt)}
             </span>
@@ -60,7 +67,11 @@ function Tweet({ tweet, isOwner }) {
             <div className="flex items-center gap-3">
               <input
                 type="text"
-                className="w-full mt-3 p-2 text-gray-200 bg-gray-800 border border-gray-800 rounded-md dark:border-gray-700  focus:border-blue-500 focus:ring-opacity-40 dark:focus:ring-opacity-40 focus:ring-blue-300 dark:focus:ring-blue-400 focus:ring dark:bg-gray-800 focus:outline-none"
+                className={`w-full mt-3 p-2 ${
+                  theme === "dark"
+                    ? "text-gray-200 bg-[#121212]"
+                    : "text-gray-800 bg-white"
+                } border border-gray-800 rounded-md focus:border-blue-500 focus:ring-opacity-40 focus:ring-blue-300 focus:outline-none`}
                 value={editedTweet}
                 onChange={handleTweetChange}
               />
@@ -78,11 +89,17 @@ function Tweet({ tweet, isOwner }) {
               </button>
             </div>
           ) : (
-            <p className="mb-2">{tweet?.content}</p>
+            <p
+              className={`mb-2 ${
+                theme === "dark" ? "text-gray-200" : "text-gray-800"
+              }`}
+            >
+              {tweet?.content}
+            </p>
           )}
         </div>
       </div>
-      <div className="sm:w-[4%] w-[10%] mr-5  flex flex-col gap-3 h-full items-center justify-center">
+      <div className="sm:w-[4%] w-[10%] mr-5 flex flex-col gap-3 h-full items-center justify-center">
         {authStatus && isOwner && (
           <div className="w-full flex items-center mr-6">
             <DropDown

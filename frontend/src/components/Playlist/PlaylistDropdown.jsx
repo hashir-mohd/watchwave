@@ -8,9 +8,11 @@ import {
   useCreatePlaylist,
 } from "../../hooks/playlist.hook";
 import toast from "react-hot-toast";
+
 function PlaylistDropdown({ videoId }) {
   const userId = useSelector((state) => state.auth.user?._id);
   const authStatus = useSelector((state) => state.auth.authStatus);
+  const theme = useSelector((state) => state.theme.theme); // Get the theme from the Redux store
   const [showDropdown, setShowDropdown] = useState(false);
   const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
@@ -65,12 +67,19 @@ function PlaylistDropdown({ videoId }) {
         loginTo={"Save Video to Playlist"}
       />
     );
+
+  // Theme class logic
+  const dropdownClass =
+    theme === "dark" ? "bg-[#121212] text-gray-200" : "bg-white text-gray-600";
+  const buttonClass =
+    theme === "dark" ? "bg-[#00bcd4] text-black" : "bg-[#00bcd4] text-white";
+
   return (
     <>
       <div className="relative block" ref={dropdownRef}>
         <button
           onClick={(e) => handleDropdown(e)}
-          className="flex items-center gap-x-2 rounded-lg bg-white px-4 py-1.5 text-black"
+          className={`flex items-center gap-x-2 rounded-lg ${buttonClass} px-4 py-1.5`}
         >
           <span className="inline-block w-5">
             <svg
@@ -92,7 +101,9 @@ function PlaylistDropdown({ videoId }) {
         </button>
 
         {showDropdown && (
-          <div className="absolute right-0 top-full z-10  w-64 overflow-hidden rounded-lg bg-[#121212] p-4 shadow shadow-slate-50/30 ">
+          <div
+            className={`absolute right-0 border-rounded-xl top-full z-10 w-64 overflow-hidden rounded-lg p-4 shadow shadow-slate-50/30 ${dropdownClass}`}
+          >
             <h3 className="mb-4 text-center text-lg font-semibold">
               Save to playlist
             </h3>
@@ -110,11 +121,13 @@ function PlaylistDropdown({ videoId }) {
                 id="playlist-name"
                 placeholder="Enter playlist name"
                 required
-                className="w-full rounded-lg border border-transparent bg-white px-3 py-2 text-black outline-none focus:border-[#ae7aff]"
+                className={`w-full rounded-lg border border-transparent bg-white px-3 py-2 text-black outline-none focus:border-[#00bcd4] ${
+                  theme === "dark" ? "bg-gray-800 text-gray-200" : "text-black"
+                }`}
               />
               <button
                 type="submit"
-                className="mx-auto mt-4 rounded-lg bg-[#ae7aff] px-4 py-2 text-black"
+                className={`mx-auto mt-4 rounded-lg ${buttonClass} px-4 py-2`}
               >
                 Create new playlist
               </button>

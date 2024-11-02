@@ -1,5 +1,9 @@
 # Logs
 .env
+.env.docker
+.en.prod
+
+
 logs
 *.log
 npm-debug.log*

@@ -5,12 +5,16 @@ import {
   useRemoveVideoFromPlaylist,
 } from "../../hooks/playlist.hook";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+
 function PlaylistName({ playlistId, videoId, playlistName }) {
   const { data: isAdded } = useIsVideoInPlaylist(videoId, playlistId);
   const [added, setAdded] = useState(isAdded || false);
+  const theme = useSelector((state) => state.theme.theme);
 
   const { mutateAsync: addVideoToPlaylist } = useAddVideoToPlaylist();
   const { mutateAsync: removeVideoFromPlaylist } = useRemoveVideoFromPlaylist();
+
   const handleAddVideoToPlaylist = async () => {
     await addVideoToPlaylist({ videoId, playlistId });
   };
@@ -18,10 +22,13 @@ function PlaylistName({ playlistId, videoId, playlistName }) {
   const handleRemoveVideoFromPlaylist = async () => {
     await removeVideoFromPlaylist({ videoId, playlistId });
   };
+
   return (
     <li key={playlistId} className="mb-2 last:mb-0">
       <label
-        className="group/label inline-flex cursor-pointer items-center gap-x-3"
+        className={`group/label inline-flex cursor-pointer items-center gap-x-3 ${
+          theme === "dark" ? "text-gray-200" : "text-gray-600"
+        }`}
         htmlFor={`${playlistId}-checkbox`}
       >
         <input
@@ -39,7 +46,11 @@ function PlaylistName({ playlistId, videoId, playlistName }) {
             }
           }}
         />
-        <span className="inline-flex h-4 w-4 items-center justify-center rounded-[4px] border border-transparent bg-white text-white group-hover/label:border-[#ae7aff] peer-checked:border-[#ae7aff] peer-checked:text-[#ae7aff]">
+        <span
+          className={`inline-flex h-4 w-4 items-center justify-center rounded-[4px] border border-transparent ${
+            theme === "dark" ? "bg-gray-700" : "bg-white"
+          } text-white group-hover/label:border-[#00bcd4] peer-checked:border-[#00bcd4] peer-checked:text-[#00bcd4]`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

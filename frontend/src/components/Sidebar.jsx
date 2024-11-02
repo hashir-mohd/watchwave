@@ -78,7 +78,7 @@ function Sidebar() {
     //         >
     //           <Link
     //             to={item.path}
-    //             className="flex flex-col items-center justify-center border-[#121212] rounded-xl py-1 focus:text-[#ae7aff] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#ae7aff] sm:hover:text-black sm:focus:border-[#ae7aff] sm:focus:bg-[#ae7aff] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
+    //             className="flex flex-col items-center justify-center border-[#121212] rounded-xl py-1 focus:text-[#00bcd4] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#00bcd4] sm:hover:text-black sm:focus:border-[#00bcd4] sm:focus:bg-[#00bcd4] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
     //           >
     //             <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
     //               {item.icon}
@@ -97,7 +97,7 @@ function Sidebar() {
     //       <li className="hidden sm:block mt-auto">
     //         <Link
     //           to="/support"
-    //           className="flex flex-col items-center justify-center border-[#121212] rounded-xl py-1 focus:text-[#ae7aff] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#ae7aff] sm:hover:text-black sm:focus:border-[#ae7aff] sm:focus:bg-[#ae7aff] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
+    //           className="flex flex-col items-center justify-center border-[#121212] rounded-xl py-1 focus:text-[#00bcd4] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#00bcd4] sm:hover:text-black sm:focus:border-[#00bcd4] sm:focus:bg-[#00bcd4] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
     //         >
     //           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
     //             <RxQuestionMarkCircled />
@@ -114,7 +114,7 @@ function Sidebar() {
     //       <li className="hidden sm:block">
     //         <Link
     //           to="/edit-profile/personal-info"
-    //           className="flex flex-col items-center justify-center border-[#121212] rounded-xl py-1 focus:text-[#ae7aff] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#ae7aff] sm:hover:text-black sm:focus:border-[#ae7aff] sm:focus:bg-[#ae7aff] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
+    //           className="flex flex-col items-center justify-center border-[#121212] rounded-xl py-1 focus:text-[#00bcd4] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#00bcd4] sm:hover:text-black sm:focus:border-[#00bcd4] sm:focus:bg-[#00bcd4] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
     //         >
     //           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
     //             <CiSettings />
@@ -149,10 +149,10 @@ function Sidebar() {
             >
               <Link
                 to={item.path}
-                className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:p-1.5 sm:focus:border-0 sm:hover:bg-[#ae7aff] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
+                className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:p-1.5 sm:focus:border-0 sm:hover:bg-[#00bcd4] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
                   theme === "dark"
-                    ? "sm:focus:text-black sm:hover:text-black sm:focus:bg-[#ae7aff]"
-                    : "sm:focus:text-[#ae7aff] sm:hover:text-white sm:focus:bg-gray-100"
+                    ? "sm:focus:text-black sm:hover:text-black sm:focus:bg-[#00bcd4]"
+                    : "sm:focus:text-[#00bcd4] sm:hover:text-white sm:focus:bg-gray-100"
                 }`}
               >
                 <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
@@ -172,10 +172,10 @@ function Sidebar() {
           <li className="hidden sm:block mt-auto">
             <Link
               to="/support"
-              className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:p-1.5 sm:focus:border-0 sm:hover:bg-[#ae7aff] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
+              className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:p-1.5 sm:focus:border-0 sm:hover:bg-[#00bcd4] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
                 theme === "dark"
-                  ? "sm:focus:text-black sm:hover:text-black sm:focus:bg-[#ae7aff]"
-                  : "sm:focus:text-[#ae7aff] sm:hover:text-white sm:focus:bg-gray-100"
+                  ? "sm:focus:text-black sm:hover:text-black sm:focus:bg-[#00bcd4]"
+                  : "sm:focus:text-[#00bcd4] sm:hover:text-white sm:focus:bg-gray-100"
               }`}
             >
               <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
@@ -194,10 +194,10 @@ function Sidebar() {
           <li className="hidden sm:block">
             <Link
               to="/edit-profile/personal-info"
-              className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:p-1.5 sm:focus:border-0 sm:hover:bg-[#ae7aff] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
+              className={`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:p-1.5 sm:focus:border-0 sm:hover:bg-[#00bcd4] sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4 ${
                 theme === "dark"
-                  ? "sm:focus:text-black sm:hover:text-black sm:focus:bg-[#ae7aff]"
-                  : "sm:focus:text-[#ae7aff] sm:hover:text-white sm:focus:bg-gray-100"
+                  ? "sm:focus:text-black sm:hover:text-black sm:focus:bg-[#00bcd4]"
+                  : "sm:focus:text-[#00bcd4] sm:hover:text-white sm:focus:bg-gray-100"
               }`}
             >
               <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">

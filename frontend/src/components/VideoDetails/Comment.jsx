@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { timeAgo } from "../../assets/timeAgo";
 import Like from "./Like";
 import { useDeleteComment, useEditComment } from "../../hooks/comment.hook";
@@ -10,8 +10,9 @@ function Comment({ comment }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(comment?.content);
   const userId = useSelector((state) => state.auth.user?._id);
+  const theme = useSelector((state) => state.theme.theme); // Fetching the theme from Redux state
 
-  const isOwner = comment?.owner?._id === userId ? true : false;
+  const isOwner = comment?.owner?._id === userId;
 
   const { mutateAsync: editComment } = useEditComment();
   const { mutateAsync: deleteComment } = useDeleteComment();
@@ -41,33 +42,35 @@ function Comment({ comment }) {
 
   return (
     <>
-      <div className="flex justify-between gap-x-4">
+      <div
+        className={`flex justify-between gap-x-4 ${
+          theme === "dark"
+            ? "bg-[#121212] text-gray-200"
+            : "bg-white text-gray-600"
+        }`}
+      >
         <div className="flex gap-x-4">
-          <Link to={`/channel/${comment && comment?.owner?.username}`}>
+          <Link to={`/channel/${comment?.owner?.username}`}>
             <div className="mt-2 h-11 w-11 shrink-0">
               <img
-                src={comment && comment?.owner?.avatar?.url}
-                alt={comment && comment?.owner?.username}
+                src={comment?.owner?.avatar?.url}
+                alt={comment?.owner?.username}
                 className="h-full w-full rounded-full object-cover"
               />
             </div>
           </Link>
           <div className="block">
-            <p className="flex items-center text-gray-200">
-              {comment && comment?.owner?.fullName}  ·  {"  "}
-              <span className="text-sm">
-                {comment && timeAgo(comment?.createdAt)}
-              </span>
+            <p className="flex items-center">
+              {comment?.owner?.fullName}  ·  {"  "}
+              <span className="text-sm">{timeAgo(comment?.createdAt)}</span>
             </p>
-            <p className="text-sm text-gray-200">
-              @{comment && comment?.owner?.username}
-            </p>
+            <p className="text-sm">@{comment?.owner?.username}</p>
 
             {isEditing ? (
               <div className="flex items-center gap-3">
                 <input
                   type="text"
-                  className="w-full mt-3 p-2 text-gray-200 bg-gray-800 border border-gray-800 rounded-md dark:border-gray-700  focus:border-blue-500 focus:ring-opacity-40 dark:focus:ring-opacity-40 focus:ring-blue-300 dark:focus:ring-blue-400 focus:ring dark:bg-gray-800 focus:outline-none"
+                  className="w-full mt-3 p-2 text-gray-200 bg-gray-800 border border-gray-800 rounded-md dark:border-gray-700 focus:border-blue-500 focus:ring-opacity-40 dark:focus:ring-opacity-40 focus:ring-blue-300 dark:focus:ring-blue-400 focus:ring dark:bg-gray-800 focus:outline-none"
                   value={editedComment}
                   onChange={handleCommentChange}
                 />
@@ -78,14 +81,14 @@ function Comment({ comment }) {
                   Cancel
                 </button>
                 <button
-                  onClick={() => handleEditComment()}
+                  onClick={handleEditComment}
                   className="mt-3 px-4 py-2 text-sm text-white bg-blue-500 rounded-md"
                 >
                   Save
                 </button>
               </div>
             ) : (
-              <p className="mt-3 text-sm">{comment && comment?.content}</p>
+              <p className="mt-3 text-sm">{comment?.content}</p>
             )}
           </div>
         </div>
@@ -96,15 +99,14 @@ function Comment({ comment }) {
               handleEdit={() => setIsEditing(true)}
             />
           )}
-
           <div className="ml-8">
             <Like
               className="px-2"
               iconSize={"w-4"}
-              id={comment && comment?._id}
+              id={comment?._id}
               type={"comments"}
-              isLiked={comment && comment?.isLiked}
-              likesCount={comment && comment?.likesCount}
+              isLiked={comment?.isLiked}
+              likesCount={comment?.likesCount}
             />
           </div>
         </div>

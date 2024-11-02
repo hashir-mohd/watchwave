@@ -6,6 +6,7 @@ import ProgressBar from "../ProgressBar";
 
 function ExistingPlaylist({ videoId }) {
   const userId = useSelector((state) => state.auth.user?._id);
+  const theme = useSelector((state) => state.theme.theme); // Fetching the theme from Redux state
 
   const {
     data: existingPlaylists,
@@ -19,7 +20,13 @@ function ExistingPlaylist({ videoId }) {
   }
 
   return (
-    <ul className="mb-4">
+    <ul
+      className={`mb-4 ${
+        theme === "dark"
+          ? "bg-[#121212] text-gray-200"
+          : "bg-white text-gray-600"
+      }`}
+    >
       {isFetched && existingPlaylists?.length > 0 ? (
         existingPlaylists.map((playlist) => (
           <PlaylistName

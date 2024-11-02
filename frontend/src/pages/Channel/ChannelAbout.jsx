@@ -23,8 +23,8 @@ const ChannelAbout = () => {
     },
     {
       icon: FaGlobe,
-      text: `https://shadowplay.vercel.app/channel/${channelAbout?.username}`,
-      link: `https://shadowplay.vercel.app/channel/${channelAbout?.username}`,
+      text: `https://watchwave.imhashir.me/channel/${channelAbout?.username}`,
+      link: `https://watchwave.imhashir.me/channel/${channelAbout?.username}`,
     },
     { icon: FaVideo, text: `${channelAbout?.totalVideos} Videos` },
     { icon: FaEye, text: `${channelAbout?.totalViews} Views` },

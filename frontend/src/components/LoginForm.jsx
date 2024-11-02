@@ -4,6 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLogin } from "../hooks/auth.hook";
 import { Input, SpButton } from "./index";
+import { useSelector } from "react-redux"; // Import useSelector
 
 function LoginForm({ onLogin }) {
   const schema = z.object({
@@ -33,8 +34,21 @@ function LoginForm({ onLogin }) {
       console.error("Login failed:", error);
     }
   };
+
+  // Get the theme from the Redux store
+  const theme = useSelector((state) => state.theme.theme);
+
+  // Define background and text color based on the theme
+  const themeClasses =
+    theme === "dark"
+      ? "bg-[#121212] text-gray-200" // Dark mode colors
+      : "bg-white text-gray-600"; // Light mode colors
+
   return (
-    <form onSubmit={handleSubmit(loginUser)} className="flex flex-col">
+    <form
+      onSubmit={handleSubmit(loginUser)}
+      className={`flex flex-col p-4 rounded-lg ${themeClasses}`}
+    >
       <Input
         label={"Username/Email"}
         type="text"

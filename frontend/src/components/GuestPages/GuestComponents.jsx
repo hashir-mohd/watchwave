@@ -8,14 +8,23 @@ import {
   FaFilm,
   FaUsers,
 } from "react-icons/fa";
+import { useSelector } from "react-redux"; // Importing useSelector for theme
 
-export const GuestComponent = ({ title, description, icon: Icon }) => (
-  <div className="flex flex-col items-center justify-center  bg-black p-4 text-center">
-    <Icon className="w-16 h-16 text-purple-400 mb-4" />
-    <h2 className="text-2xl font-bold mb-2 text-white">{title}</h2>
-    <p className="text-gray-400 mb-8 max-w-md">{description}</p>
-  </div>
-);
+export const GuestComponent = ({ title, description, icon: Icon }) => {
+  const theme = useSelector((state) => state.theme.theme); // Fetching the theme from Redux state
+
+  return (
+    <div
+      className={`flex flex-col items-center justify-center bg-[#121212] p-4 text-center ${
+        theme === "dark" ? "bg-[#121212]" : "bg-white text-gray-600"
+      }`}
+    >
+      <Icon className="w-16 h-16 text-purple-400 mb-4" />
+      <h2 className="text-2xl font-bold mb-2 text-white">{title}</h2>
+      <p className="text-gray-400 mb-8 max-w-md">{description}</p>
+    </div>
+  );
+};
 
 export const GuestMyChannel = () => (
   <GuestComponent

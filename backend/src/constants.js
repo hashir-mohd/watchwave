@@ -1,21 +1,21 @@
 export const DB_NAME = "videotube";
 
 export const coverImg_upOptions = {
-  folder: "shadowplay/cover-image",
+  folder: "watchwave/cover-image",
   resource_type: "image",
 };
 
 
 export const avatar_upOptions = {
-  folder: "shadowplay/avatar",
+  folder: "watchwave/avatar",
   resource_type: "image",
 };
 export const thumbnail_upOptions = {
-  folder: "shadowplay/thumbnail",
+  folder: "watchwave/thumbnail",
   resource_type: "image",
 };
 
 export const video_upOptions = {
-  folder: "shadowplay/video",
+  folder: "watchwave/video",
   resource_type: "video",
 };

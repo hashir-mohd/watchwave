@@ -97,17 +97,17 @@ function Header() {
           <span
             className={`block h-[2px] w-full ${
               theme === "dark" ? "bg-white" : "bg-black"
-            } group-hover:bg-[#ae7aff]`}
+            } group-hover:bg-[#00bcd4]`}
           ></span>
           <span
             className={`block h-[2px] w-2/3 ${
               theme === "dark" ? "bg-white" : "bg-black"
-            } group-hover:bg-[#ae7aff]`}
+            } group-hover:bg-[#00bcd4]`}
           ></span>
           <span
             className={`block h-[2px] w-full ${
               theme === "dark" ? "bg-white" : "bg-black"
-            } group-hover:bg-[#ae7aff]`}
+            } group-hover:bg-[#00bcd4]`}
           ></span>
         </button>
 
@@ -147,7 +147,7 @@ function Header() {
                     to={item.path}
                     className={`flex w-full items-center justify-start gap-x-4 px-4 py-1.5 text-left border ${
                       theme === "dark"
-                        ? "border-white hover:bg-[#ae7aff] hover:text-black focus:bg-[#ae7aff]"
+                        ? "border-white hover:bg-[#00bcd4] hover:text-black focus:bg-[#00bcd4]"
                         : "border-gray-200 hover:bg-gray-100 focus:bg-gray-100"
                     }`}
                   >

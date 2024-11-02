@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   useCreatePlaylist,
   useUpdatePlaylist,
@@ -15,6 +15,8 @@ const schema = z.object({
 
 function PlaylistForm({ onClose, isEdit = false, playlist }) {
   const userId = useSelector((state) => state.auth.user?._id);
+  const theme = useSelector((state) => state.theme.theme);
+
   console.log(playlist);
   const {
     register,
@@ -44,17 +46,24 @@ function PlaylistForm({ onClose, isEdit = false, playlist }) {
       onClose();
     }
   };
+
   return (
     <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-60">
       <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="relative w-full max-w-md rounded-lg bg-gray-800 p-6">
+        <div
+          className={`relative w-full max-w-md rounded-lg ${
+            theme === "dark"
+              ? "bg-[#121212] text-gray-200"
+              : "bg-white text-gray-600"
+          } p-6`}
+        >
           <h3 className="w-full mx-auto text-xl font-bold mb-3">
             {isEdit ? "Edit Playlist" : "Create Playlist"}
           </h3>
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
             <label
               htmlFor="playlist-name"
-              className="mb-1 inline-block cursor-pointer text-gray-300"
+              className="mb-1 inline-block cursor-pointer"
             >
               Name
             </label>
@@ -64,14 +73,18 @@ function PlaylistForm({ onClose, isEdit = false, playlist }) {
               </span>
             )}
             <input
-              className="w-full mb-3 rounded-lg border border-transparent bg-gray-700 px-3 py-2 text-white outline-none focus:border-purple-500"
+              className={`w-full mb-3 rounded-lg border border-transparent ${
+                theme === "dark"
+                  ? "bg-gray-700 text-white"
+                  : "bg-gray-200 text-black"
+              } px-3 py-2 outline-none focus:border-purple-500`}
               id="playlist-name"
               placeholder="Enter playlist name"
               {...register("name")}
             />
             <label
-              htmlFor="playlist-name"
-              className="mb-1 inline-block cursor-pointer text-gray-300"
+              htmlFor="playlist-description"
+              className="mb-1 inline-block cursor-pointer"
             >
               Description
             </label>
@@ -81,8 +94,12 @@ function PlaylistForm({ onClose, isEdit = false, playlist }) {
               </span>
             )}
             <textarea
-              className="w-full rounded-lg border border-transparent bg-gray-700 px-3 py-2 text-white outline-none focus:border-purple-500"
-              id="playlist-name"
+              className={`w-full rounded-lg border border-transparent ${
+                theme === "dark"
+                  ? "bg-gray-700 text-white"
+                  : "bg-gray-200 text-black"
+              } px-3 py-2 outline-none focus:border-purple-500`}
+              id="playlist-description"
               placeholder="Enter playlist description"
               {...register("description")}
             />

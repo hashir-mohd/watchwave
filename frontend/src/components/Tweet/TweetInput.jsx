@@ -5,6 +5,7 @@ import LoginPopup from "../LoginPopup";
 
 function TweetInput() {
   const authStatus = useSelector((state) => state.auth.authStatus);
+  const theme = useSelector((state) => state.theme.theme); // Get the current theme
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [tweet, setTweet] = useState("");
 
@@ -27,15 +28,26 @@ function TweetInput() {
     );
 
   return (
-    <div className="w-full mt-3 ">
+    <div
+      className={`w-full mt-3 ${
+        theme === "dark" ? "bg-[#121212]" : "bg-white"
+      }`}
+    >
       <textarea
-        className="w-full bg-transparent p-2 border rounded-lg border-slate-300"
+        className={`w-full p-2 border rounded-lg border-slate-300 ${
+          theme === "dark"
+            ? "bg-[#121212] text-gray-200"
+            : "bg-transparent text-gray-800"
+        }`}
         value={tweet}
         onChange={(e) => setTweet(e.target.value)}
       ></textarea>
       <button
-        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+        className={`bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded ${
+          isPending ? "opacity-50 cursor-not-allowed" : ""
+        }`}
         onClick={sendTweet}
+        disabled={isPending} // Disable button while pending
       >
         Send
       </button>

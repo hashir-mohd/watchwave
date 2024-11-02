@@ -77,7 +77,7 @@ function PlaylistForm({ onClose, isEdit = false, playlist }) {
                 theme === "dark"
                   ? "bg-gray-700 text-white"
                   : "bg-gray-200 text-black"
-              } px-3 py-2 outline-none focus:border-purple-500`}
+              } px-3 py-2 outline-none focus:border-[#00bcd4]`}
               id="playlist-name"
               placeholder="Enter playlist name"
               {...register("name")}
@@ -98,14 +98,14 @@ function PlaylistForm({ onClose, isEdit = false, playlist }) {
                 theme === "dark"
                   ? "bg-gray-700 text-white"
                   : "bg-gray-200 text-black"
-              } px-3 py-2 outline-none focus:border-purple-500`}
+              } px-3 py-2 outline-none focus:border-[#00bcd4]`}
               id="playlist-description"
               placeholder="Enter playlist description"
               {...register("description")}
             />
             <button
               type="submit"
-              className="mx-auto mt-4 rounded-lg bg-purple-500 px-4 py-2 text-white"
+              className="mx-auto mt-4 rounded-lg bg-[#00bcd4] px-4 py-2 text-white"
             >
               {isEdit ? "Update playlist" : "Create new playlist"}
             </button>

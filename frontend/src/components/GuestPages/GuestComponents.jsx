@@ -19,7 +19,7 @@ export const GuestComponent = ({ title, description, icon: Icon }) => {
         theme === "dark" ? "bg-[#121212]" : "bg-white text-gray-600"
       }`}
     >
-      <Icon className="w-16 h-16 text-purple-400 mb-4" />
+      <Icon className="w-16 h-16 text-[#00bcd4] mb-4" />
       <h2 className="text-2xl font-bold mb-2 text-white">{title}</h2>
       <p className="text-gray-400 mb-8 max-w-md">{description}</p>
     </div>

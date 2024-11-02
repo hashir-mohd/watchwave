@@ -13,6 +13,8 @@ import { RxQuestionMarkCircled } from "react-icons/rx";
 import { CiSettings } from "react-icons/ci";
 import { IconContext } from "react-icons";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { MdOutlineVideoLibrary } from "react-icons/md";
+import { FiLogOut } from "react-icons/fi";
 import { setShowUploadVideo } from "../../features/uiSlice";
 import Search from "./Search";
 import ThemeToggle from "../ThemeToggle";
@@ -73,7 +75,6 @@ function Header() {
   }, [location.pathname]);
 
   return (
-    
     <header
       className={`z-[9999] sticky inset-x-0 top-0 w-full border-b px-4 ${
         theme === "dark"
@@ -163,23 +164,36 @@ function Header() {
 
           <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
             {authStatus ? (
-              <SpButton onClick={handleUploadVideo}>Upload Video</SpButton>
+              <button
+                className={` p-3 rounded-full flex items-center justify-center ${
+                  theme === "dark"
+                    ? "bg-[#10c1f3] hover:bg-slate-400 text-white"
+                    : "bg-[#10c1f3] hover:bg-gray-300 text-black"
+                }`}
+                onClick={handleUploadVideo}
+              >
+                {" "}
+                <MdOutlineVideoLibrary size={24} />
+              </button>
             ) : (
-              <Button onClick={handleUploadVideo}>Upload Video</Button>
+              <Button onClick={handleUploadVideo}>
+                {" "}
+                <MdOutlineVideoLibrary size={24} />
+              </Button>
             )}
 
             {authStatus && userData && (
               <>
-                <Button
-                  className={`${
+                <button
+                  className={` p-3 rounded-full flex items-center justify-center ${
                     theme === "dark"
-                      ? "bg-gray-500 hover:bg-slate-400 text-white"
-                      : "bg-gray-200 hover:bg-gray-300 text-black"
+                      ? "bg-[#f20f0f] hover:bg-slate-400 text-white"
+                      : "bg-[#f20f0f] hover:bg-gray-300 text-black"
                   }`}
                   onClick={handleLogout}
                 >
-                  Logout
-                </Button>
+                  <FiLogOut size={20} />
+                </button>
                 <div className="mb-8 mt-auto px-4 sm:mb-0 sm:mt-0 sm:px-0">
                   <Link
                     to={`/channel/${userData?.username}/videos`}

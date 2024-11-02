@@ -8,7 +8,7 @@ const VideoDetailSkeleton = () => {
         {/* Video player skeleton */}
         <div className="aspect-video bg-gray-800 rounded-lg animate-pulse mb-4">
           <div className="h-full flex items-center justify-center">
-            <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-[#00bcd4] rounded-full flex items-center justify-center">
               <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-white border-b-8 border-b-transparent ml-1"></div>
             </div>
           </div>

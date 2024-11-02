@@ -12,10 +12,10 @@ function NextVideosColumn({ videoId, name, userId }) {
           className={`
       ${
         nextVideosOption === "all"
-          ? "bg-purple-500 text-white"
+          ? "bg-[#00bcd4] text-white"
           : "bg-gray-500 text-gray-200"
       }
-      hover:bg-purple-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+      hover:bg-[#00bcd4] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
         >
           All
         </button>
@@ -24,10 +24,10 @@ function NextVideosColumn({ videoId, name, userId }) {
           className={`
       ${
         nextVideosOption === "user"
-          ? "bg-purple-500 text-white"
+          ? "bg-[#00bcd4] text-white"
           : "bg-gray-500 text-gray-200"
       }
-      hover:bg-purple-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+      hover:bg-[#00bcd4] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
         >
           From {name}
         </button>

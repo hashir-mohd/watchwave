@@ -43,7 +43,7 @@ function TweetInput() {
         onChange={(e) => setTweet(e.target.value)}
       ></textarea>
       <button
-        className={`bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded ${
+        className={`bg-[#00bcd4] hover:bg-[#00bcd4] text-white font-bold py-2 px-4 rounded ${
           isPending ? "opacity-50 cursor-not-allowed" : ""
         }`}
         onClick={sendTweet}

@@ -68,20 +68,20 @@ function History() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className={`w-full border rounded-md py-2 px-4 pl-10 focus:outline-none focus:ring-2 ${
               theme === "dark"
-                ? "bg-[#121212] text-white border-purple-500 focus:ring-purple-600"
-                : "bg-white text-black border-gray-300 focus:ring-purple-500"
+                ? "bg-[#121212] text-white border-[#00bcd4] focus:ring-[#00bcd4]"
+                : "bg-white text-black border-gray-300 focus:ring-[#00bcd4]"
             }`}
           />
           <BiSearch
             className={`absolute h-6 w-6 left-3 top-2.5 ${
-              theme === "dark" ? "text-purple-400" : "text-gray-600"
+              theme === "dark" ? "text-[#00bcd4]" : "text-gray-600"
             }`}
           />
         </div>
 
         <button
           onClick={clearWatchHistory}
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+          className="w-full bg-[#00bcd4] hover:bg-[#00bcd4] text-white font-bold py-2 px-4 rounded transition duration-300"
         >
           Clear Watch History
         </button>

@@ -88,7 +88,7 @@ function PlaylistCard({ playlist, isEditAndDelete = false }) {
             <div className="flex gap-x-2">
               <button
                 onClick={handleShowPlaylistForm}
-                className="text-white w-[6rem] bg-purple-500 px-3 py-1.5 rounded-lg"
+                className="text-white w-[6rem] bg-[#00bcd4] px-3 py-1.5 rounded-lg"
               >
                 Edit
               </button>

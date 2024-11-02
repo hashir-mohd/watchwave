@@ -86,13 +86,13 @@ function Signup() {
         </div>
         <form onSubmit={handleSubmit(createAccount)} className="flex flex-col">
           <div
-            className="w-full mb-4 rounded-lg  bg-gray-300 text-purple-700  bg-cover bg-center bg-no-repeat items-center"
+            className="w-full mb-4 rounded-lg  bg-gray-300 text-[#00bcd4]  bg-cover bg-center bg-no-repeat items-center"
             style={{
               backgroundImage: `url(${selectedCover})`,
             }}
           >
             <div
-              className={`mx-auto mt-6 flex cursor-pointer justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat border-2 border-purple-700 `}
+              className={`mx-auto mt-6 flex cursor-pointer justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat border-2 border-[#00bcd4] `}
               style={{
                 backgroundImage: `url(${selectedProfile})`,
               }}
@@ -128,7 +128,7 @@ function Signup() {
                 }}
               />
 
-              <div className="bg-white/90 text-purple-700 flex items-center gap-1 rounded-tl-md px-2 text-center font-semibold">
+              <div className="bg-white/90 text-[#00bcd4] flex items-center gap-1 rounded-tl-md px-2 text-center font-semibold">
                 <label
                   htmlFor="coverphoto"
                   className="inline-flex items-center gap-1 cursor-pointer"
@@ -190,7 +190,6 @@ function Signup() {
             {...register("password", {
               required: true,
             })}
-            
           />
           {errors.password && (
             <p className="error-message text-red-700 mb-4">

@@ -14,7 +14,7 @@ const ThemeToggle = () => {
   };
 
   return (
-    <Button
+    <button
       onClick={handleToggle}
       className={`border-[#121212] rounded-full flex items-center justify-center space-x-2 p-2 ${
         theme === "dark"
@@ -24,7 +24,7 @@ const ThemeToggle = () => {
     >
       {theme === "light" ? <FaMoon size={25} /> : <FaSun size={25} />}
       
-    </Button>
+    </button>
   );
 };
 

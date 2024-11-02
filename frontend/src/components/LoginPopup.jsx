@@ -31,7 +31,7 @@ const LoginPopup = ({ onClose, loginTo }) => {
         </button>
 
         <div className="flex flex-col gap-4 items-center mb-6">
-          <Logo className="text-3xl font-bold text-purple-500" />
+          <Logo className="text-3xl font-bold text-[#00bcd4]" />
           <h2 className="text-xl font-semibold">
             Login to {loginTo || "Continue"}
           </h2>
@@ -42,7 +42,7 @@ const LoginPopup = ({ onClose, loginTo }) => {
         <div className="mt-4 text-center">
           <p className="text-sm">
             Don't have an account?{" "}
-            <a href="/signup" className="text-purple-400 hover:text-purple-300">
+            <a href="/signup" className="text-[#00bcd4] hover:text-[#00bcd4]">
               Sign up
             </a>
           </p>

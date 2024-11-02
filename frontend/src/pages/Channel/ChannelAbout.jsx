@@ -41,11 +41,11 @@ const ChannelAbout = () => {
   return (
     <div className=" text-white p-6 rounded-lg shadow-lg max-w-md">
       {" "}
-      <h2 className="text-xl font-semibold mb-4 text-purple-300">About</h2>{" "}
-      <h1 className="text-3xl font-bold mb-4 text-purple-500">
+      <h2 className="text-xl font-semibold mb-4 text-[#00bcd4]">About</h2>{" "}
+      <h1 className="text-3xl font-bold mb-4 text-[#00bcd4]">
         {channel?.fullName}
       </h1>
-      <p className=" mb-4 text-purple-500">
+      <p className=" mb-4 text-[#00bcd4]">
         {channelAbout?.description ||
           "No description provided for this channel"}
       </p>
@@ -54,17 +54,17 @@ const ChannelAbout = () => {
         {channelDetails.map((detail, index) => (
           <div key={index} className="flex items-center">
             {" "}
-            <detail.icon className="text-purple-400 mr-3 text-xl" />{" "}
+            <detail.icon className="text-[#00bcd4] mr-3 text-xl" />{" "}
             {detail.link ? (
               <Link
                 to={detail.link}
-                className="text-purple-200 hover:text-purple-400 transition duration-300"
+                className="text-[#00bcd4] hover:text-[#00bcd4] transition duration-300"
               >
                 {" "}
                 {detail.text}{" "}
               </Link>
             ) : (
-              <span className="text-gray-300">{detail.text}</span>
+              <span className="text-[#00bcd4]">{detail.text}</span>
             )}{" "}
           </div>
         ))}{" "}

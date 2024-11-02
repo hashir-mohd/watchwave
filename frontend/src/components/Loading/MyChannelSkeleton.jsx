@@ -13,7 +13,7 @@ const MyChannelSkeleton = () => {
           <div className="h-6 bg-gray-700 w-1/4 mb-2"></div>
           <div className="h-4 bg-gray-700 w-1/3"></div>
         </div>
-        <div className="w-20 h-8 bg-purple-500 rounded"></div>
+        <div className="w-20 h-8 bg-[#00bcd4] rounded"></div>
       </div>
 
       {/* Navigation */}

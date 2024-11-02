@@ -21,7 +21,7 @@ function CoverImageInput({ children, setCoverImage, coverImage }) {
   };
   return (
     <div
-      className=" w-full h-full mb-4 rounded-lg  text-purple-700 bg-cover bg-center bg-no-repeat items-center relative"
+      className=" w-full h-full mb-4 rounded-lg  text-[#00bcd4] bg-cover bg-center bg-no-repeat items-center relative"
       style={{
         backgroundImage: `url(${selectedCover})`,
       }}
@@ -47,14 +47,14 @@ function CoverImageInput({ children, setCoverImage, coverImage }) {
         <div className="absolute inset-0 w-full h-full flex justify-center items-center">
           {isPending && (
             <div className="absolute inset-0 flex justify-center items-center">
-              <div className="animate-spin rounded-full  h-14 w-14 border-t-4 border-b-4 border-purple-500"></div>
+              <div className="animate-spin rounded-full  h-14 w-14 border-t-4 border-b-4 border-[#00bcd4]"></div>
             </div>
           )}
           {coverPic && (
             <button
               className={`${
                 isPending && " cursor-not-allowed"
-              } rounded-full bg-slate-100 text-purple-500 hover:text-purple-700 p-2`}
+              } rounded-full bg-slate-100 text-[#00bcd4] hover:text-[#00bcd4] p-2`}
               onClick={handleUploadCover}
               title="Upload Cover"
               disabled={isPending}
@@ -66,7 +66,7 @@ function CoverImageInput({ children, setCoverImage, coverImage }) {
         <div
           className={`${
             isPending ? "cursor-not-allowed" : "cursor-pointer"
-          } absolute right-0 bottom-0 bg-white/90 text-purple-700 flex items-center gap-1 rounded-tl-md px-2 text-center font-semibold`}
+          } absolute right-0 bottom-0 bg-white/90 text-[#00bcd4] flex items-center gap-1 rounded-tl-md px-2 text-center font-semibold`}
         >
           Cover
           <MdOutlineCloudUpload />

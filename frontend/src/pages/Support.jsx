@@ -36,7 +36,7 @@ const Support = () => {
         `}
       >
         <div className="flex flex-col items-center mb-6">
-          <div className="bg-purple-600 p-4 rounded-full mb-4">
+          <div className="bg-[#00bcd4] p-4 rounded-full mb-4">
             <FaQuestionCircle className="text-4xl" />
           </div>
 
@@ -46,7 +46,7 @@ const Support = () => {
           <h4 className="text-2xl font-bold text-center mb-2 ">
             {personalInfo.name}
           </h4>
-          <p className="text-purple-400 text-lg mb-4">{personalInfo.email}</p>
+          <p className="text-[#00bcd4] text-lg mb-4">{personalInfo.email}</p>
         </div>
         <div className="space-y-4">
           {links.map((link) => (
@@ -55,11 +55,11 @@ const Support = () => {
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center p-3 rounded-lg hover:bg-purple-700 transition duration-300 
+              className={`flex items-center p-3 rounded-lg hover:bg-[#00bcd4] transition duration-300 
                 ${theme === "dark" ? "bg-gray-800" : "bg-gray-200"}
               `}
             >
-              <link.icon className="text-purple-400 mr-3 text-xl" />
+              <link.icon className="text-[#00bcd4] mr-3 text-xl" />
               <span className="text-lg">{link.name}</span>
             </a>
           ))}

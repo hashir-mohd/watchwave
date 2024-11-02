@@ -9,7 +9,7 @@
   background-color: #1E1E1E; /* Removes default margin */
 }
 .wheel-and-hamster {
-  --dur: 1.5s;
+  --dur: 1s;
   position: relative;
   width: 12em;
   height: 12em;

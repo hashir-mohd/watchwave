@@ -13,25 +13,30 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const { data: userData, isFetching, error } = useCurrentUser();
   const user = useSelector((state) => state.auth.userData);
-  const theme = useSelector((state) => state.theme.theme); 
+  const theme = useSelector((state) => state.theme.theme);
 
   useEffect(() => {
-    if (!isFetching) {
-      if (userData && !user) {
-        dispatch(setUser(userData));
-      }
+    // Set isLoading to false after 10 seconds to match the spinner's animation
+    const timer = setTimeout(() => {
       setIsLoading(false);
-    }
-  }, [userData, isFetching, dispatch, user]);
+    }, 800); // 10,000 milliseconds = 10 seconds
 
-  if (isLoading || isFetching) {
+    if (userData && !user) {
+      dispatch(setUser(userData));
+    }
+
+    // Clear the timer if the component unmounts before timeout
+    return () => clearTimeout(timer);
+  }, [userData, dispatch, user]);
+
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
   if (error) {
     // Handle error state
     console.error("Error fetching user data:", error);
-    // You might want to render an error component here
+    // Optionally render an error component here
   }
 
   return (
@@ -46,7 +51,6 @@ function App() {
         <Sidebar />
         <Outlet />
       </div>
-      
     </div>
   );
 }

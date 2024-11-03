@@ -25,17 +25,11 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Install Dependencies
-        run: cd frontend && npm install
-
-      - name: Build Project
-        run: npm run build  # Replace with your build script
-
-      - name: Copy Files to Server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
+          cd frontend 
+          npm install
+          npm run build
           echo "$SSH_KEY" > private_key
           chmod 600 private_key
           scp -i private_key -r ./dist/* ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_PATH }}
           rm private_key
-

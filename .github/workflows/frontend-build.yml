@@ -25,7 +25,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Install Dependencies
-        run: npm install
+        run: cd frontend && npm install
 
       - name: Build Project
         run: npm run build  # Replace with your build script

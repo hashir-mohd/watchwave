@@ -29,7 +29,8 @@ jobs:
           cd frontend 
           npm install
           npm run build
-          echo "$SSH_KEY"
+          # echo "$SSH_KEY"
+          echo $SSH_KEY_SECRET > private_key
           chmod 600 private_key
           scp -i private_key -o StrictHostKeyChecking=no -r ./dist/* ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_PATH }}
           rm private_key

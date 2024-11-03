@@ -12,7 +12,7 @@ jobs:
     env:
       NODE_VERSION: 20  # Specify Node.js version
       REMOTE_HOST: 74.225.252.48  # Replace with your server IP
-      REMOTE_USER: ubuntu  # Replace with your SSH user
+      REMOTE_USER: root  # Replace with your SSH user
       REMOTE_PATH: /var/www/html/youtune_clone/frontend/dist  # Replace with your server path
 
     steps:

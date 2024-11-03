@@ -1,0 +1,41 @@
+name: CI/CD Deployment
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the main branch. Change if you want a different branch.
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_VERSION: 20  # Specify Node.js version
+      REMOTE_HOST: 74.225.252.48  # Replace with your server IP
+      REMOTE_USER: ubuntu  # Replace with your SSH user
+      REMOTE_PATH: /var/www/html/youtune_clone/frontend/dist  # Replace with your server path
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build  # Replace with your build script
+
+      - name: Copy Files to Server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          echo "$SSH_KEY" > private_key
+          chmod 600 private_key
+          scp -i private_key -r ./dist/* ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_PATH }}
+          rm private_key
+

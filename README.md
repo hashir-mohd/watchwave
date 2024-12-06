@@ -1,7 +1,4 @@
 
-![Screenshot 2024-12-06 203733](https://github.com/user-attachments/assets/aa7d9228-eaf9-4281-a924-6e3988f9d21e)
-![Screenshot 2024-12-06 203817](https://github.com/user-attachments/assets/74c8fb5c-eae2-44ed-ba33-8b75c09adbf4)
-![Screenshot 2024-12-06 203950](https://github.com/user-attachments/assets/83c701de-c045-48a1-8b3f-d7159486ce52)
 # WatchWave - NextGen VideoStreaming Platform
 
 Watch and share videos effortlessly with Shadow Play, a user-friendly webapp that brings a variety of content to your fingertips.
